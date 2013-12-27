@@ -9,7 +9,7 @@ module Event
     class << self
       def fetch
         rss = SimpleRSS.parse open(MUSIC_URL)
-        rss.entries.map { |entry| {title: entry.title, link: entry.link, date: entry.pubDate, id: entry.guid} }
+        rss.entries.map { |entry| new title: entry.title, link: entry.link, date: entry.pubDate, id: entry.guid }
       end
     end
   end
