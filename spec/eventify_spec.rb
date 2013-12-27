@@ -27,6 +27,7 @@ describe Eventify do
     it "fetches all events from all providers" do
       eventify = Eventify.new
       Event::Piletilevi.should_receive :fetch
+      Event::Ticketpro.should_receive :fetch
 
       eventify.all_events
     end
@@ -56,7 +57,7 @@ describe Eventify do
 
   context "#providers" do
     it "returns all providers" do
-      Eventify.new.providers.should == [Event::Piletilevi]
+      Eventify.new.providers.should == [Event::Piletilevi, Event::Ticketpro]
     end
   end
 end

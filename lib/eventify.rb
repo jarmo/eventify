@@ -1,5 +1,6 @@
 require File.expand_path("event/base", __dir__)
 require File.expand_path("event/piletilevi", __dir__)
+require File.expand_path("event/ticketpro", __dir__)
 require File.expand_path("db", __dir__)
 
 class Eventify
@@ -12,7 +13,7 @@ class Eventify
   end
 
   def providers
-    [Event::Piletilevi]
+    [Event::Piletilevi, Event::Ticketpro]
   end
 end
 
