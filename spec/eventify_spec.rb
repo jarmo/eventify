@@ -5,8 +5,8 @@ describe Eventify do
     it "all are new" do
       eventify = Eventify.new
       events = [
-        Event::Base.new(id: "123", title: "foo", link: "http://example.org"),
-        Event::Base.new(id: "456", title: "bar", link: "http://example.org")
+        EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org"),
+        EventProvider::Base.new(id: "456", title: "bar", link: "http://example.org")
       ]
       eventify.stub(all_events: events)
       eventify.new_events.should == events
@@ -14,8 +14,8 @@ describe Eventify do
 
     it "old ones are filtered out" do
       eventify = Eventify.new
-      old_event = Event::Base.new(id: "123", title: "foo", link: "http://example.org").save
-      new_event = Event::Base.new(id: "456", title: "bar", link: "http://example.org")
+      old_event = EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org").save
+      new_event = EventProvider::Base.new(id: "456", title: "bar", link: "http://example.org")
       events = [old_event, new_event]
       eventify.stub(all_events: events)
 
@@ -34,22 +34,22 @@ describe Eventify do
     end
 
     it "combines all events from all providers" do
-      event1 = Event::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
-      event2 = Event::Piletilevi.new(id: "456", title: "bar", link: "http://example.org")
-      Event::Piletilevi.stub(fetch: [event1, event2])
+      event1 = EventProvider::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
+      event2 = EventProvider::Piletilevi.new(id: "456", title: "bar", link: "http://example.org")
+      EventProvider::Piletilevi.stub(fetch: [event1, event2])
 
-      event3 = Event::Base.new(id: "123", title: "foo", link: "http://example.org")
-      Event::Base.stub(fetch: [event3])
+      event3 = EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
+      EventProvider::Base.stub(fetch: [event3])
 
       eventify = Eventify.new
-      eventify.stub(providers: [Event::Piletilevi, Event::Base])
+      eventify.stub(providers: [EventProvider::Piletilevi, EventProvider::Base])
       eventify.all_events.should == [event1, event2, event3]
     end
 
     it "caches results" do
       eventify = Eventify.new
-      eventify.should_receive(:providers).once.and_return([Event::Base])
-      Event::Base.should_receive(:fetch).once.and_return([1])
+      eventify.should_receive(:providers).once.and_return([EventProvider::Base])
+      EventProvider::Base.should_receive(:fetch).once.and_return([1])
 
       eventify.all_events.should == [1]
       eventify.all_events.should == [1]
@@ -58,7 +58,7 @@ describe Eventify do
 
   context "#providers" do
     it "returns all providers" do
-      Eventify.new.providers.should == [Event::Piletilevi, Event::Ticketpro, Event::FBI]
+      Eventify.new.providers.should == [EventProvider::Piletilevi, EventProvider::Ticketpro, EventProvider::FBI]
     end
   end
 end

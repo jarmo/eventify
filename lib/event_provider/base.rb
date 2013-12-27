@@ -1,4 +1,4 @@
-module Event
+module EventProvider
   class Base
     include Comparable
 

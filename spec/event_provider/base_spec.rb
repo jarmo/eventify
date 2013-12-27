@@ -1,12 +1,12 @@
 require "spec_helper"
 
-describe Event::Base do
+describe EventProvider::Base do
   context ".fetch" do
     it "needs to be implemented" do
-      class Event::CustomEvent < Event::Base; end
+      class EventProvider::CustomEvent < EventProvider::Base; end
 
       expect {
-        Event::CustomEvent.fetch
+        EventProvider::CustomEvent.fetch
       }.to raise_error(NotImplementedError)
     end
   end
@@ -20,9 +20,9 @@ describe Event::Base do
         date: Time.parse("2013-12-27 12:30:11"),
       }
 
-      parsed_event = Event::Base.new(event)
+      parsed_event = EventProvider::Base.new(event)
       parsed_event.id.should == "86362"
-      parsed_event.provider.should == "Event::Base"
+      parsed_event.provider.should == "EventProvider::Base"
       parsed_event.title.should == event[:title]
       parsed_event.link.should == event[:link]
       parsed_event.date.should == event[:date]
@@ -36,8 +36,8 @@ describe Event::Base do
       }
 
       expect {
-        Event::Base.new(event)
-      }.to raise_error(Event::Base::MissingAttributeError)
+        EventProvider::Base.new(event)
+      }.to raise_error(EventProvider::Base::MissingAttributeError)
     end
 
     it "raises an error when title is missing" do
@@ -48,8 +48,8 @@ describe Event::Base do
       }
 
       expect {
-        Event::Base.new(event)
-      }.to raise_error(Event::Base::MissingAttributeError)
+        EventProvider::Base.new(event)
+      }.to raise_error(EventProvider::Base::MissingAttributeError)
     end
 
     it "raises an error when link is missing" do
@@ -60,30 +60,30 @@ describe Event::Base do
       }
 
       expect {
-        Event::Base.new(event)
-      }.to raise_error(Event::Base::MissingAttributeError)
+        EventProvider::Base.new(event)
+      }.to raise_error(EventProvider::Base::MissingAttributeError)
     end
   end
 
   context "#provider" do
     it "uses class name" do
-      class Event::CustomEvent < Event::Base; end
-      Event::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider.should == "Event::CustomEvent"
+      class EventProvider::CustomEvent < EventProvider::Base; end
+      EventProvider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider.should == "EventProvider::CustomEvent"
     end
   end
 
   context "#==" do
     it "true when id and provider match" do
-      Event::Base.new(id: "123", title: "foo", link: "http://example.org").should == Event::Base.new(id: "123", title: "foo", link: "http://example.org")
+      EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org").should == EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
     end
 
     it "false when id does not match" do
-      Event::Base.new(id: "123", title: "foo", link: "http://example.org").should_not == Event::Base.new(id: "321", title: "foo", link: "http://example.org")
+      EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org").should_not == EventProvider::Base.new(id: "321", title: "foo", link: "http://example.org")
     end
 
     it "false when class does not match" do
-      class Event::CustomEvent < Event::Base; end
-      Event::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").should_not ==  Event::Base.new(id: "123", title: "foo", link: "http://example.org")
+      class EventProvider::CustomEvent < EventProvider::Base; end
+      EventProvider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").should_not ==  EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
     end
   end
 
@@ -95,7 +95,7 @@ describe Event::Base do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       }
-      Event::Base.new(event).save
+      EventProvider::Base.new(event).save
 
       Db.events.size.should == 1
     end
@@ -107,7 +107,7 @@ describe Event::Base do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       }
-      event_instance = Event::Base.new(event)
+      event_instance = EventProvider::Base.new(event)
       event_instance.save.should == event_instance
     end
   end
@@ -120,9 +120,9 @@ describe Event::Base do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       }
-      Event::Base.new(event).save
+      EventProvider::Base.new(event).save
 
-      Event::Base.new(event).should exist
+      EventProvider::Base.new(event).should exist
     end
 
     it "false for not existing event" do
@@ -133,13 +133,13 @@ describe Event::Base do
         date: Time.parse("2013-12-27 12:30:11"),
       }
 
-      Event::Base.new(event).should_not exist
+      EventProvider::Base.new(event).should_not exist
     end
   end
 
   it "sorts by title" do
-    event1 = Event::Base.new(id: "123", title: "foo", link: "http://example.org")
-    event2 = Event::Piletilevi.new(id: "123", title: "bar", link: "http://example.org")
+    event1 = EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
+    event2 = EventProvider::Piletilevi.new(id: "123", title: "bar", link: "http://example.org")
     [event1, event2].sort.should == [event2, event1]
   end
 end

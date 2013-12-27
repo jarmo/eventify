@@ -3,7 +3,7 @@ require "spec_helper"
 describe Db do
   context ".save" do
     it "saves events into database" do
-      event1 = Event::Base.new(
+      event1 = EventProvider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -11,7 +11,7 @@ describe Db do
       )
       Db.save event1
 
-      event2 = Event::Base.new(
+      event2 = EventProvider::Base.new(
         id: "86363",
         title: "Second event",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138080",
@@ -24,7 +24,7 @@ describe Db do
     end
 
     it "raises an error when event already exists" do
-      event = Event::Base.new(
+      event = EventProvider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -40,7 +40,7 @@ describe Db do
 
   context ".exists?" do
     it "true when event exists" do
-      event = Event::Base.new(
+      event = EventProvider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -52,7 +52,7 @@ describe Db do
     end
 
     it "false when event does not exist" do
-      event = Event::Base.new(
+      event = EventProvider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -64,7 +64,7 @@ describe Db do
   end
 
   it ".events loads events from database" do
-    event1 = Event::Base.new(
+    event1 = EventProvider::Base.new(
       id: "86362",
       title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
       link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -72,7 +72,7 @@ describe Db do
     )
     Db.save(event1)
 
-    event2 = Event::Piletilevi.new(
+    event2 = EventProvider::Piletilevi.new(
       id: "86363",
       title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
       link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",

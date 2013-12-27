@@ -1,7 +1,7 @@
 require "simple-rss"
 require "open-uri"
 
-module Event
+module EventProvider
   class Piletilevi < Base
     # http://www.piletilevi.ee/est/uldinfo/rss
     URLS = [

@@ -12,8 +12,8 @@ describe EventifyScheduler do
   context "#perform" do
     it "sends out e-mail for new events" do
       new_events = [
-        Event::Base.new(id: "123", title: "foo", link: "http://example.org"),
-        Event::Base.new(id: "456", title: "bar", link: "http://example.org")
+        EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org"),
+        EventProvider::Base.new(id: "456", title: "bar", link: "http://example.org")
       ]
       Eventify.any_instance.should_receive(:new_events).and_return(new_events)
 
@@ -34,8 +34,8 @@ describe EventifyScheduler do
 
     it "saves new events into database" do
       new_events = [
-        Event::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
-        Event::Base.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now)
+        EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
+        EventProvider::Base.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now)
       ]
       Eventify.any_instance.should_receive(:new_events).and_return(new_events)
 
@@ -57,9 +57,9 @@ describe EventifyScheduler do
 
   it "#format_for_email" do
     new_events = [
-      Event::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
-      Event::Piletilevi.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now),
-      Event::Base.new(id: "456", title: "bar3", link: "http://example.org/3", date: Time.now)
+      EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
+      EventProvider::Piletilevi.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now),
+      EventProvider::Base.new(id: "456", title: "bar3", link: "http://example.org/3", date: Time.now)
     ]
 
 

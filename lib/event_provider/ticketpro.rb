@@ -1,7 +1,7 @@
 require "simple-rss"
 require "open-uri"
 
-module Event
+module EventProvider
   class Ticketpro < Base
     URL = "http://www.ticketpro.ee/jnp/rss/index.xml" 
 
