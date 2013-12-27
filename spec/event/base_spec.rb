@@ -57,7 +57,7 @@ describe Event::Base do
   end
 
   context "#exists?" do
-    it "true for already existing event" do
+    it "true for existing event" do
       event = {
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
@@ -67,6 +67,17 @@ describe Event::Base do
       Event::Base.new(event).save
 
       Event::Base.new(event).should exist
+    end
+
+    it "false for not existing event" do
+      event = {
+        id: "86362",
+        title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
+        link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
+        date: Time.parse("2013-12-27 12:30:11"),
+      }
+
+      Event::Base.new(event).should_not exist
     end
   end
 end
