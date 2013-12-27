@@ -1,6 +1,16 @@
 require "spec_helper"
 
 describe Event::Base do
+  context ".fetch" do
+    it "needs to be implemented" do
+      class Event::CustomEvent < Event::Base; end
+
+      expect {
+        Event::CustomEvent.fetch
+      }.to raise_error(NotImplementedError)
+    end
+  end
+
   context "#initialize" do
     it "parses raw event" do
       event = {

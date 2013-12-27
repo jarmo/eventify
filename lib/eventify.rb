@@ -4,7 +4,7 @@ require "db"
 
 class Eventify
   def fetch_all
-    providers.each &:fetch
+    @all_events ||= providers.map(&:fetch).flatten
   end
 
   def new_events

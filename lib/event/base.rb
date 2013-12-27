@@ -1,5 +1,11 @@
 module Event
   class Base
+    class << self
+      def fetch
+        raise NotImplementedError
+      end
+    end
+
     attr_reader :id, :title, :link, :date
 
     def initialize(event)
