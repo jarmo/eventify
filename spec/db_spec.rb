@@ -1,5 +1,4 @@
 require "spec_helper"
-require "db"
 
 describe Db do
   context ".save" do

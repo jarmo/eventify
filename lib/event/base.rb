@@ -1,5 +1,3 @@
-require "db"
-
 module Event
   class Base
     attr_reader :id, :title, :link, :date
@@ -17,6 +15,7 @@ module Event
 
     def save
       Db.save self 
+      self
     end
 
     def exists?

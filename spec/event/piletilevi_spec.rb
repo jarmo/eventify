@@ -1,5 +1,4 @@
 require "spec_helper"
-require "event/piletilevi"
 
 describe Event::Piletilevi do
   context "#fetch" do

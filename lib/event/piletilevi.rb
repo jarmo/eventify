@@ -1,6 +1,5 @@
 require "simple-rss"
 require "open-uri"
-require "event/base"
 
 module Event
   class Piletilevi < Base
