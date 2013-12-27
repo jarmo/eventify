@@ -18,4 +18,13 @@ describe Eventify do
       eventify.new_events.should == [new_event]
     end
   end
+
+  context "#fetch_all" do
+    it "fetches all events from all providers" do
+      eventify = Eventify.new
+      Event::Piletilevi.should_receive :fetch
+
+      eventify.fetch_all
+    end
+  end
 end
