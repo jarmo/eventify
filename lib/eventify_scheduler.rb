@@ -3,9 +3,11 @@ require "logger"
 
 class EventifyScheduler
   def call(_)
-    L("Fetching events.")
+    L("Fetch events.")
     perform
-    L("Fetching done.")
+    L("Fetch done.")
+  rescue Exception => e
+    L("Fetch failed with an error \"#{e.message}\": #{e.backtrace.join("\n")}")
   end
 
   private
@@ -13,19 +15,13 @@ class EventifyScheduler
   def perform
     eventify = Eventify.new
     new_events = eventify.new_events
-    L(proc {"Fetched #{eventify.all_events.size}, out of which #{new_events.size} are new."})
+    L(proc {"Fetched #{eventify.all_events.size} events, out of which #{new_events.size} are new."})
     return if new_events.empty?
 
     send_email new_events
     L("Email sent.")
 
-    new_events.each do |event|
-      begin
-        event.save
-      rescue SQLite3::ConstraintException
-        L("Failed to save event: #{event.inspect}")
-      end
-    end
+    new_events.each(&:save)
     L("New events saved.")
   end
 
