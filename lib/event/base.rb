@@ -1,6 +1,8 @@
+require "db"
+
 module Event
   class Base
-    attr_reader :title, :link, :date
+    attr_reader :id, :title, :link, :date
 
     def initialize(event)
       @id = event[:id]
@@ -9,16 +11,20 @@ module Event
       @date = event[:date]
     end
 
-    def guid
-      "#{provider}-#{@id}"
-    end
-
     def provider
       @provider ||= self.class.name.downcase.split("::").last
     end
 
+    def save
+      Db.save self 
+    end
+
+    def exists?
+      Db.exists? self
+    end
+
     def ==(other)
-      guid == other.guid
+      id == other.id && provider == other.provider
     end
 
   end

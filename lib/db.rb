@@ -5,29 +5,28 @@ class Db
 
   class << self
     def exists?(event)
-      results = sqlite.execute "select guid from event where guid=?", event[:guid]
+      results = sqlite.execute "select 1 from event where id=? and provider=?", event.id, event.provider
       !results.empty?
     end
 
     def save(event)
       sqlite.execute "insert into event values(?, ?, ?, ?, ?)", 
-        event[:guid],
-        event[:provider],
-        event[:date].to_s,
-        event[:title],
-        event[:link]
+        event.id,
+        event.provider,
+        event.date.to_s,
+        event.title,
+        event.link
     end
 
     def events
       translated_events = []
       sqlite.execute("select * from event") do |event|
-        translated_events << {
-          guid: event["guid"],
-          provider: event["provider"],
+        translated_events << Event::Base.new(
+          id: event["id"],
           title: event["title"],
           link: event["link"],
           date: Time.parse(event["date"])
-        }
+        )
       end
 
       translated_events
@@ -42,11 +41,12 @@ class Db
                     database.results_as_hash = true
 
                     database.execute "create table if not exists event(
-                      guid primary key,
+                      id text,
                       provider text,
                       date text,
                       title text,
-                      link text
+                      link text,
+                      primary key (id, provider)
                     )"
 
                     database
