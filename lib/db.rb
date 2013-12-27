@@ -5,12 +5,17 @@ class Db
 
   class << self
     def save(event)
+      exists = sqlite.execute "select guid from event where guid=?", event[:guid]
+      return false unless exists.empty?
+
       sqlite.execute "insert into event values(?, ?, ?, ?, ?)", 
         event[:guid],
         event[:provider],
         event[:date].to_s,
         event[:title],
         event[:link]
+
+      true
     end
 
     def events

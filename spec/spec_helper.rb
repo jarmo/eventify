@@ -13,5 +13,6 @@ RSpec.configure do |config|
     sqlite = Db.instance_variable_get(:@sqlite)
     sqlite.close if sqlite
     File.delete test_database if File.exists? test_database
+    Db.instance_variable_set(:@sqlite, nil)
   end
 end
