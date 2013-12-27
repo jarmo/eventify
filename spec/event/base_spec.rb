@@ -34,11 +34,6 @@ describe Event::Base do
       class Event::CustomEvent < Event::Base; end
       Event::CustomEvent.new(id: "123").provider.should == "Event::CustomEvent"
     end
-
-    it "can be overridden" do
-      class Event::CustomEvent < Event::Base; end
-      Event::CustomEvent.new(id: "123", provider: "foo").provider.should == "foo"
-    end
   end
 
   context "#==" do

@@ -21,7 +21,7 @@ class Db
     def events
       translated_events = []
       sqlite.execute("select * from event") do |event|
-        translated_events << Event::Base.new(
+        translated_events << const_get(event["provider"]).new(
           id: event["id"],
           title: event["title"],
           link: event["link"],

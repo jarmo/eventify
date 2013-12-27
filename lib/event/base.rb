@@ -10,7 +10,6 @@ module Event
 
     def initialize(event)
       @id = event[:id]
-      @provider = event[:provider]
       @title = event[:title]
       @link = event[:link]
       @date = event[:date]
