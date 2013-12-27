@@ -2,9 +2,9 @@ require "mail"
 
 class EventifyScheduler
   def call(_)
-    EventifyLogger.debug("Fetching events.")
+    L("Fetching events.")
     perform
-    EventifyLogger.debug("Fetching done.")
+    L("Fetching done.")
   end
 
   private
@@ -12,14 +12,14 @@ class EventifyScheduler
   def perform
     eventify = Eventify.new
     new_events = eventify.new_events
-    EventifyLogger.debug(proc {"Fetched #{eventify.all_events.size}, out of which #{new_events.size} are new."})
+    L(proc {"Fetched #{eventify.all_events.size}, out of which #{new_events.size} are new."})
     return if new_events.empty?
 
     send_email new_events
-    EventifyLogger.debug("Email sent.")
+    L("Email sent.")
 
     new_events.each(&:save)
-    EventifyLogger.debug("New events saved.")
+    L("New events saved.")
   end
 
   def send_email(new_events)
@@ -49,5 +49,12 @@ class EventifyScheduler
 
     formatted_events << footer
     formatted_events.join("\n")
+  end
+
+  def L(message)
+    return if defined? RSpec
+
+    @logger ||= Logger.new(File.expand_path("../eventify.log", __dir__))
+    @logger.debug(message.respond_to?(:call) ? message.call : message)
   end
 end

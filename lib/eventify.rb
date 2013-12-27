@@ -1,4 +1,3 @@
-require File.expand_path("eventify_logger", __dir__)
 require File.expand_path("event/base", __dir__)
 require File.expand_path("event/piletilevi", __dir__)
 require File.expand_path("db", __dir__)
