@@ -11,9 +11,9 @@ module Event
     attr_reader :id, :title, :link, :date
 
     def initialize(event)
-      @id = event[:id]
-      @title = event[:title]
-      @link = event[:link]
+      @id = event[:id] or raise MissingAttributeError.new("id is missing")
+      @title = event[:title] or raise MissingAttributeError.new("title is missing")
+      @link = event[:link] or raise MissingAttributeError.new("link is missing")
       @date = event[:date]
     end
 
@@ -38,5 +38,6 @@ module Event
       title <=> other.title
     end
 
+    MissingAttributeError = Class.new(RuntimeError)
   end
 end

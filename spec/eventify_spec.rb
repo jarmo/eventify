@@ -4,17 +4,21 @@ describe Eventify do
   context "#new_events" do
     it "all are new" do
       eventify = Eventify.new
-      events = [Event::Base.new(id: "123"), Event::Base.new(id: "456")]
+      events = [
+        Event::Base.new(id: "123", title: "foo", link: "http://example.org"),
+        Event::Base.new(id: "456", title: "bar", link: "http://example.org")
+      ]
       eventify.stub(fetch_all: events)
       eventify.new_events.should == events
     end
 
     it "old ones are filtered out" do
       eventify = Eventify.new
-      old_event = Event::Base.new(id: "123").save
-      new_event = Event::Base.new(id: "456")
+      old_event = Event::Base.new(id: "123", title: "foo", link: "http://example.org").save
+      new_event = Event::Base.new(id: "456", title: "bar", link: "http://example.org")
       events = [old_event, new_event]
       eventify.stub(fetch_all: events)
+
       eventify.new_events.should == [new_event]
     end
   end
@@ -28,11 +32,11 @@ describe Eventify do
     end
 
     it "combines all events from all providers" do
-      event1 = Event::Piletilevi.new(id: "123")
-      event2 = Event::Piletilevi.new(id: "456")
+      event1 = Event::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
+      event2 = Event::Piletilevi.new(id: "456", title: "bar", link: "http://example.org")
       Event::Piletilevi.stub(fetch: [event1, event2])
 
-      event3 = Event::Base.new(id: "123")
+      event3 = Event::Base.new(id: "123", title: "foo", link: "http://example.org")
       Event::Base.stub(fetch: [event3])
 
       eventify = Eventify.new

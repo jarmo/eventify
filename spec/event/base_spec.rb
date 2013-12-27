@@ -27,27 +27,63 @@ describe Event::Base do
       parsed_event.link.should == event[:link]
       parsed_event.date.should == event[:date]
     end
+
+    it "raises an error when id is missing" do
+      event = {
+        title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
+        link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
+        date: Time.parse("2013-12-27 12:30:11"),
+      }
+
+      expect {
+        Event::Base.new(event)
+      }.to raise_error(Event::Base::MissingAttributeError)
+    end
+
+    it "raises an error when title is missing" do
+      event = {
+        id: "86362",
+        link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
+        date: Time.parse("2013-12-27 12:30:11"),
+      }
+
+      expect {
+        Event::Base.new(event)
+      }.to raise_error(Event::Base::MissingAttributeError)
+    end
+
+    it "raises an error when link is missing" do
+      event = {
+        id: "86362",
+        title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
+        date: Time.parse("2013-12-27 12:30:11"),
+      }
+
+      expect {
+        Event::Base.new(event)
+      }.to raise_error(Event::Base::MissingAttributeError)
+    end
   end
 
   context "#provider" do
     it "uses class name" do
       class Event::CustomEvent < Event::Base; end
-      Event::CustomEvent.new(id: "123").provider.should == "Event::CustomEvent"
+      Event::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider.should == "Event::CustomEvent"
     end
   end
 
   context "#==" do
     it "true when id and provider match" do
-      Event::Base.new(id: "123").should == Event::Base.new(id: "123")
+      Event::Base.new(id: "123", title: "foo", link: "http://example.org").should == Event::Base.new(id: "123", title: "foo", link: "http://example.org")
     end
 
     it "false when id does not match" do
-      Event::Base.new(id: "123").should_not == Event::Base.new(id: "321")
+      Event::Base.new(id: "123", title: "foo", link: "http://example.org").should_not == Event::Base.new(id: "321", title: "foo", link: "http://example.org")
     end
 
     it "false when class does not match" do
       class Event::CustomEvent < Event::Base; end
-      Event::CustomEvent.new(id: "123").should_not ==  Event::Base.new(id: "123")
+      Event::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").should_not ==  Event::Base.new(id: "123", title: "foo", link: "http://example.org")
     end
   end
 
@@ -102,8 +138,8 @@ describe Event::Base do
   end
 
   it "sorts by title" do
-    event1 = Event::Base.new(title: "foo")
-    event2 = Event::Piletilevi.new(title: "bar")
+    event1 = Event::Base.new(id: "123", title: "foo", link: "http://example.org")
+    event2 = Event::Piletilevi.new(id: "123", title: "bar", link: "http://example.org")
     [event1, event2].sort.should == [event2, event1]
   end
 end
