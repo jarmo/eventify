@@ -1,4 +1,5 @@
 require "mail"
+require "logger"
 
 class EventifyScheduler
   def call(_)
