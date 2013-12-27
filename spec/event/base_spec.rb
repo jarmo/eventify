@@ -3,7 +3,7 @@ require "event/base"
 
 describe Event::Base do
   context "#initialize" do
-    it "parses event" do
+    it "parses raw event" do
       event = {
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
@@ -27,10 +27,25 @@ describe Event::Base do
     end
   end
 
-  context "provider" do
+  context "#provider" do
     it "uses class name" do
       class Event::CustomEvent < Event::Base; end
       Event::CustomEvent.new(id: "123").provider.should == "customevent"
+    end
+  end
+
+  context "#==" do
+    it "true when id and provider match" do
+      Event::Base.new(id: "123").should == Event::Base.new(id: "123")
+    end
+
+    it "false when id does not match" do
+      Event::Base.new(id: "123").should_not == Event::Base.new(id: "321")
+    end
+
+    it "false when class does not match" do
+      class Event::CustomEvent < Event::Base; end
+      Event::CustomEvent.new(id: "123").should_not ==  Event::Base.new(id: "123")
     end
   end
 end

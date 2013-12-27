@@ -17,5 +17,9 @@ module Event
       @provider ||= self.class.name.downcase.split("::").last
     end
 
+    def ==(other)
+      guid == other.guid
+    end
+
   end
 end
