@@ -9,7 +9,8 @@ module Event
       "http://www.piletilevi.ee/news.rss.php?path=est/teatriuudised",
       "http://www.piletilevi.ee/news.rss.php?path=est/muudatused",
       "http://www.piletilevi.ee/category.rss.php?path=est/piletid/muusika",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/teater_-_kunst",
+      # 404?
+      #"http://www.piletilevi.ee/category.rss.php?path=est/piletid/teater_-_kunst",
       "http://www.piletilevi.ee/category.rss.php?path=est/piletid/kogupere",
       "http://www.piletilevi.ee/category.rss.php?path=est/piletid/sport",
       "http://www.piletilevi.ee/category.rss.php?path=est/piletid/festival",
