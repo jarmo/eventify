@@ -22,7 +22,7 @@ if $PROGRAM_NAME == __FILE__
   require File.expand_path("eventify_scheduler", __dir__)
 
   scheduler = Rufus::Scheduler.new
-  scheduler.every("15m", EventifyScheduler, first_in: Time.now)
+  scheduler.every("1h", EventifyScheduler, first_in: Time.now)
 
   scheduler.join
 end

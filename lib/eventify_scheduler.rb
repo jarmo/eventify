@@ -30,11 +30,12 @@ class EventifyScheduler
       delivery_method :smtp, {:address => "mail.neti.ee", :domain => "neti.ee",
                               :port => 25, :openssl_verify_mode => "none"}
 
+      content_type "text/plain; charset=utf-8"
+
       to "jarmo.p@gmail.com"
-      from "no-reply@eventify.com"
+      from "no-reply@eventify.io"
       subject "New events!"
       body formatted_events
-      charset = "UTF-8"
     end
   end
 
