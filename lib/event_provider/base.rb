@@ -37,7 +37,7 @@ module EventProvider
     alias_method :eql?, :==
 
     def hash
-      "#{@id}-#{provider}-#{@link}".hash
+      "#{id}-#{provider}-#{link}".hash
     end
 
     def <=>(other)
