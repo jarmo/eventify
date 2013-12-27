@@ -12,7 +12,7 @@ module Event
     end
 
     def provider
-      @provider ||= self.class.name.downcase.split("::").last
+      @provider ||= self.class.name
     end
 
     def save

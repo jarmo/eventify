@@ -13,7 +13,7 @@ describe Event::Base do
 
       parsed_event = Event::Base.new(event)
       parsed_event.id.should == "86362"
-      parsed_event.provider.should == "base"
+      parsed_event.provider.should == "Event::Base"
       parsed_event.title.should == event[:title]
       parsed_event.link.should == event[:link]
       parsed_event.date.should == event[:date]
@@ -23,7 +23,7 @@ describe Event::Base do
   context "#provider" do
     it "uses class name" do
       class Event::CustomEvent < Event::Base; end
-      Event::CustomEvent.new(id: "123").provider.should == "customevent"
+      Event::CustomEvent.new(id: "123").provider.should == "Event::CustomEvent"
     end
   end
 
