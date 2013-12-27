@@ -2,7 +2,7 @@ require "spec_helper"
 require "db"
 
 describe Db do
-  context "#save" do
+  context ".save" do
     it "saves events into database" do
       event1 = {
         guid: "86362",
