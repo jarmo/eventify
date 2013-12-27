@@ -42,4 +42,22 @@ describe EventifyScheduler do
 
     scheduler.send(:send_email, [])
   end
+
+  it "#format_for_email" do
+    new_events = [
+      Event::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
+      Event::Piletilevi.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now),
+      Event::Base.new(id: "456", title: "bar3", link: "http://example.org/3", date: Time.now)
+    ]
+
+
+    scheduler = EventifyScheduler.new
+    scheduler.send(:format_for_email, new_events).should == "There might be some awesome events coming towards you:
+
+- bar (http://example.org/2)
+- bar3 (http://example.org/3)
+- foo (http://example.org/1)
+
+Until next time :)"
+  end
 end

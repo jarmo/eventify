@@ -100,4 +100,10 @@ describe Event::Base do
       Event::Base.new(event).should_not exist
     end
   end
+
+  it "sorts by title" do
+    event1 = Event::Base.new(title: "foo")
+    event2 = Event::Piletilevi.new(title: "bar")
+    [event1, event2].sort.should == [event2, event1]
+  end
 end

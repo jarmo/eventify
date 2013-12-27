@@ -1,5 +1,7 @@
 module Event
   class Base
+    include Comparable
+
     class << self
       def fetch
         raise NotImplementedError
@@ -30,6 +32,10 @@ module Event
 
     def ==(other)
       id == other.id && provider == other.provider
+    end
+
+    def <=>(other)
+      title <=> other.title
     end
 
   end
