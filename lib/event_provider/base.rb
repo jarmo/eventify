@@ -34,6 +34,12 @@ module EventProvider
       id == other.id && provider == other.provider
     end
 
+    alias_method :eql?, :==
+
+    def hash
+      "#{@id}-#{@title}-#{@link}".hash
+    end
+
     def <=>(other)
       title <=> other.title
     end

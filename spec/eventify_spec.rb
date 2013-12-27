@@ -54,6 +54,17 @@ describe Eventify do
       eventify.all_events.should == [1]
       eventify.all_events.should == [1]
     end
+
+    it "removes duplicate entries" do
+      event1 = EventProvider::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
+      event2 = EventProvider::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
+      event1.should == event2
+      EventProvider::Piletilevi.stub(fetch: [event1, event2])
+
+      eventify = Eventify.new
+      eventify.stub(providers: [EventProvider::Piletilevi])
+      eventify.all_events.should == [event1]
+    end
   end
 
   context "#providers" do
