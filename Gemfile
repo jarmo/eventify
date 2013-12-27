@@ -1,6 +1,8 @@
 source "https://rubygems.org"
 ruby "2.0.0"
 
+gem "simple-rss"
+
 group :development do
   gem "guard"
   gem "guard-rspec"
