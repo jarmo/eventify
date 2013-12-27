@@ -1,4 +1,4 @@
-require "eventify"
+require File.expand_path("../lib/eventify", __dir__)
 
 require "webmock/rspec"
 WebMock.disable_net_connect!(allow_localhost: true)
@@ -9,8 +9,9 @@ RSpec.configure do |config|
   config.before do
     require "db"
 
-    stub_const "Db::DATABASE_NAME", "db/eventify-test.db"
-    test_database = File.expand_path("../db/eventify-test.db", __dir__)
+    database_path = File.expand_path("../db/eventify-test.db", __dir__)
+    stub_const "Db::DATABASE_PATH", database_path
+    test_database = database_path
 
     sqlite = Db.instance_variable_get(:@sqlite)
     sqlite.close if sqlite

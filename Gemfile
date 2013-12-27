@@ -3,6 +3,7 @@ ruby "2.0.0"
 
 gem "simple-rss"
 gem "sqlite3"
+gem "rufus-scheduler"
 
 group :development do
   gem "guard"

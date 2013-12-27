@@ -1,7 +1,7 @@
 require "sqlite3"
 
 class Db
-  DATABASE_NAME = "db/eventify.db"
+  DATABASE_PATH = File.expand_path("../db/eventify.db", __dir__)
 
   class << self
     def exists?(event)
@@ -37,7 +37,7 @@ class Db
     def sqlite
       @sqlite ||= begin
                     FileUtils.mkdir_p "db"
-                    database = SQLite3::Database.new DATABASE_NAME
+                    database = SQLite3::Database.new DATABASE_PATH
                     database.results_as_hash = true
 
                     database.execute "create table if not exists event(
