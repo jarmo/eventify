@@ -5,7 +5,7 @@ class Db
 
   class << self
     def exists?(event)
-      results = sqlite.execute "select 1 from event where id=? and provider=?", event.id, event.provider
+      results = sqlite.execute "select 1 from event where id=? and provider=? and link=?", event.id, event.provider, event.link
       !results.empty?
     end
 
@@ -13,9 +13,9 @@ class Db
       sqlite.execute "insert into event values(?, ?, ?, ?, ?)", 
         event.id,
         event.provider,
-        event.date.to_s,
         event.title,
-        event.link
+        event.link,
+        event.date.to_s
     end
 
     def events
@@ -43,10 +43,10 @@ class Db
                     database.execute "create table if not exists event(
                       id text,
                       provider text,
-                      date text,
                       title text,
                       link text,
-                      primary key (id, provider)
+                      date text,
+                      primary key (id, provider, link)
                     )"
 
                     database

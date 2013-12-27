@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 require "mail"
 require "logger"
 
@@ -19,7 +21,13 @@ class EventifyScheduler
     send_email new_events
     L("Email sent.")
 
-    new_events.each(&:save)
+    new_events.each do |event|
+      begin
+        event.save
+      rescue SQLite3::ConstraintException
+        L("Failed to save event: #{event.inspect}")
+      end
+    end
     L("New events saved.")
   end
 
@@ -43,7 +51,7 @@ class EventifyScheduler
     header = "There are some rumours going on about #{events.size} possible awesome events:"
 
     formatted_events = events.sort.reduce([header, ""]) do |memo, event|
-      memo << "* #{event.title}"
+      memo << "* #{event.title}".force_encoding("UTF-8")
       memo << "    #{event.link}"
       memo << ""
     end
