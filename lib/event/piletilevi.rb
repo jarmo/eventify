@@ -23,7 +23,7 @@ module Event
       def fetch
         URLS.each.reduce([]) do |memo, url|
           rss = SimpleRSS.parse open(url)
-          memo + rss.entries.map { |entry| new title: entry.title, link: entry.link, date: entry.pubDate, id: entry.guid }
+          memo + rss.entries.map { |entry| new id: entry.guid, title: entry.title, link: entry.link, date: entry.pubDate }
         end
       end
     end
