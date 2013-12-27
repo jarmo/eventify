@@ -64,7 +64,7 @@ describe EventifyScheduler do
 
 
     scheduler = EventifyScheduler.new
-    scheduler.send(:format_for_email, new_events).should == "There might be some awesome events waiting for you:
+    scheduler.send(:format_for_email, new_events).should == "There are some rumours going on about 3 possible awesome events:
 
 * bar
     http://example.org/2
@@ -75,8 +75,7 @@ describe EventifyScheduler do
 * foo
     http://example.org/1
 
-Yet another 3 events reviewed!
-
-Until next time :)"
+Your Humble Servant,
+Eventify"
   end
 end

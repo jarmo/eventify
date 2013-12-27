@@ -34,20 +34,21 @@ class EventifyScheduler
 
       to "jarmo.p@gmail.com"
       from "no-reply@eventify.io"
-      subject "New events!"
+      subject "Event Rumours"
       body formatted_events
     end
   end
 
   def format_for_email(events)
-    header = "There might be some awesome events waiting for you:"
-    footer = "Yet another #{events.size} events reviewed!\n\nUntil next time :)"
+    header = "There are some rumours going on about #{events.size} possible awesome events:"
 
     formatted_events = events.sort.reduce([header, ""]) do |memo, event|
       memo << "* #{event.title}"
       memo << "    #{event.link}"
       memo << ""
     end
+
+    footer = "Your Humble Servant,\nEventify"
 
     formatted_events << footer
     formatted_events.join("\n")
