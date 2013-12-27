@@ -2,6 +2,7 @@ source "https://rubygems.org"
 ruby "2.0.0"
 
 gem "simple-rss"
+gem "nokogiri"
 gem "sqlite3"
 gem "rufus-scheduler"
 gem "mail"
