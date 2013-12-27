@@ -10,12 +10,12 @@ describe EventifyScheduler do
   end
 
   context "#perform" do
-    it "sends out e-mail for new_events" do
+    it "sends out e-mail for new events" do
       new_events = [Event::Base.new(id: "123"), Event::Base.new(id: "456")]
       Eventify.any_instance.should_receive(:new_events).and_return(new_events)
       
       scheduler = EventifyScheduler.new
-      scheduler.should_receive(:send_emails).with(new_events)
+      scheduler.should_receive(:send_email).with(new_events)
 
       scheduler.send(:perform)
     end

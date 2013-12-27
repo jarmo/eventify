@@ -10,7 +10,7 @@ class EventifyScheduler
     send_emails new_events
   end
 
-  def send_emails(new_events)
+  def send_email(new_events)
 
   end
 end
