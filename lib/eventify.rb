@@ -4,11 +4,11 @@ require "db"
 
 class Eventify
   def fetch_all
-    @all_events ||= providers.map(&:fetch).flatten
+    @all_events ||= providers.flat_map(&:fetch)
   end
 
   def new_events
-    fetch_all.delete_if &:exists?
+    fetch_all.delete_if(&:exists?)
   end
 
   def providers
