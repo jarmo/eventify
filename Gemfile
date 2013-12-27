@@ -2,6 +2,7 @@ source "https://rubygems.org"
 ruby "2.0.0"
 
 gem "simple-rss"
+gem "sqlite3"
 
 group :development do
   gem "guard"
