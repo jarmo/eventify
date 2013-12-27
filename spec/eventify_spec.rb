@@ -8,7 +8,7 @@ describe Eventify do
         Event::Base.new(id: "123", title: "foo", link: "http://example.org"),
         Event::Base.new(id: "456", title: "bar", link: "http://example.org")
       ]
-      eventify.stub(fetch_all: events)
+      eventify.stub(all_events: events)
       eventify.new_events.should == events
     end
 
@@ -17,18 +17,18 @@ describe Eventify do
       old_event = Event::Base.new(id: "123", title: "foo", link: "http://example.org").save
       new_event = Event::Base.new(id: "456", title: "bar", link: "http://example.org")
       events = [old_event, new_event]
-      eventify.stub(fetch_all: events)
+      eventify.stub(all_events: events)
 
       eventify.new_events.should == [new_event]
     end
   end
 
-  context "#fetch_all" do
+  context "#all_events" do
     it "fetches all events from all providers" do
       eventify = Eventify.new
       Event::Piletilevi.should_receive :fetch
 
-      eventify.fetch_all
+      eventify.all_events
     end
 
     it "combines all events from all providers" do
@@ -41,7 +41,7 @@ describe Eventify do
 
       eventify = Eventify.new
       eventify.stub(providers: [Event::Piletilevi, Event::Base])
-      eventify.fetch_all.should == [event1, event2, event3]
+      eventify.all_events.should == [event1, event2, event3]
     end
 
     it "caches results" do
@@ -49,8 +49,8 @@ describe Eventify do
       eventify.should_receive(:providers).once.and_return([Event::Base])
       Event::Base.should_receive(:fetch).once.and_return([1])
 
-      eventify.fetch_all.should == [1]
-      eventify.fetch_all.should == [1]
+      eventify.all_events.should == [1]
+      eventify.all_events.should == [1]
     end
   end
 

@@ -1,14 +1,15 @@
+require File.expand_path("eventify_logger", __dir__)
 require File.expand_path("event/base", __dir__)
 require File.expand_path("event/piletilevi", __dir__)
 require File.expand_path("db", __dir__)
 
 class Eventify
-  def fetch_all
+  def all_events
     @all_events ||= providers.flat_map(&:fetch)
   end
 
   def new_events
-    fetch_all.delete_if(&:exists?)
+    all_events.reject(&:exists?)
   end
 
   def providers
