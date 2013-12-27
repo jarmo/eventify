@@ -31,7 +31,7 @@ class EventifyScheduler
 
   def format_for_email(events)
     header = "There might be some awesome events waiting for you:"
-    footer = "Until next time :)"
+    footer = "Yet another #{events.size} events reviewed!\n\nUntil next time :)"
 
     formatted_events = events.sort.reduce([header, ""]) do |memo, event|
       memo << "* #{event.title}"

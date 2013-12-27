@@ -72,6 +72,8 @@ describe EventifyScheduler do
 * foo
     http://example.org/1
 
+Yet another 3 events reviewed!
+
 Until next time :)"
   end
 end
