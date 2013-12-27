@@ -4,6 +4,7 @@ ruby "2.0.0"
 gem "simple-rss"
 gem "sqlite3"
 gem "rufus-scheduler"
+gem "mail"
 
 group :development do
   gem "guard"
