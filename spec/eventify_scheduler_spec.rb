@@ -20,6 +20,15 @@ describe EventifyScheduler do
       scheduler.send(:perform)
     end
 
+    it "does not send e-mail when no new events" do
+      Eventify.any_instance.should_receive(:new_events).and_return([])
+
+      scheduler = EventifyScheduler.new
+      scheduler.should_not_receive(:send_email)
+
+      scheduler.send(:perform)
+    end
+
     it "saves new events into database" do
       new_events = [
         Event::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
@@ -52,11 +61,16 @@ describe EventifyScheduler do
 
 
     scheduler = EventifyScheduler.new
-    scheduler.send(:format_for_email, new_events).should == "There might be some awesome events coming towards you:
+    scheduler.send(:format_for_email, new_events).should == "There might be some awesome events waiting for you:
 
-- bar (http://example.org/2)
-- bar3 (http://example.org/3)
-- foo (http://example.org/1)
+* bar
+    http://example.org/2
+
+* bar3
+    http://example.org/3
+
+* foo
+    http://example.org/1
 
 Until next time :)"
   end
