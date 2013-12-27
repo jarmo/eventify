@@ -1,7 +1,7 @@
 require "sqlite3"
 
 class Db
-  DATABASE_NAME = "eventify.db"
+  DATABASE_NAME = "db/eventify.db"
 
   class << self
     def save(event)
@@ -32,6 +32,7 @@ class Db
 
     def sqlite
       @sqlite ||= begin
+                    FileUtils.mkdir_p "db"
                     database = SQLite3::Database.new DATABASE_NAME
                     database.results_as_hash = true
 
