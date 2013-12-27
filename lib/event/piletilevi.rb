@@ -3,12 +3,27 @@ require "open-uri"
 
 module Event
   class Piletilevi < Base
-    MUSIC_URL = "http://www.piletilevi.ee/category.rss.php?path=est/piletid/muusika"
+    # http://www.piletilevi.ee/est/uldinfo/rss
+    URLS = [
+      "http://www.piletilevi.ee/news.rss.php?path=est/uudised",
+      "http://www.piletilevi.ee/news.rss.php?path=est/teatriuudised",
+      "http://www.piletilevi.ee/news.rss.php?path=est/muudatused",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/muusika",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/teater_-_kunst",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/kogupere",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/sport",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/festival",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/film",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/kinkekaardid",
+      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/varia"
+    ]
 
     class << self
       def fetch
-        rss = SimpleRSS.parse open(MUSIC_URL)
-        rss.entries.map { |entry| new title: entry.title, link: entry.link, date: entry.pubDate, id: entry.guid }
+        URLS.each.reduce([]) do |memo, url|
+          rss = SimpleRSS.parse open(url)
+          memo + rss.entries.map { |entry| new title: entry.title, link: entry.link, date: entry.pubDate, id: entry.guid }
+        end
       end
     end
   end

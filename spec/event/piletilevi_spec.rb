@@ -3,7 +3,12 @@ require "spec_helper"
 describe Event::Piletilevi do
   context "#fetch" do
     it "fetches events" do
-      stub_request(:get, Event::Piletilevi::MUSIC_URL).to_return(body: File.read(File.expand_path("../support/piletilevi-muusika.xml", __dir__)))
+      stub_request(:get, Event::Piletilevi::URLS[0]).to_return(body: File.read(File.expand_path("../support/piletilevi-music.xml", __dir__)))
+      stub_request(:get, Event::Piletilevi::URLS[1]).to_return(body: File.read(File.expand_path("../support/piletilevi-news.xml", __dir__)))
+
+      Event::Piletilevi::URLS[2..-1].each do |url|
+        stub_request(:get, url).to_return(body: File.read(File.expand_path("../support/piletilevi-empty.xml", __dir__)))
+      end
 
       events = Event::Piletilevi.fetch
       events.should == [
@@ -18,7 +23,13 @@ describe Event::Piletilevi do
           link: "http://www.piletilevi.ee/est/piletid/muusika/show/?concert=138050",
           date: Time.parse("2013-12-27 11:16:14"),
           id: "86359"
-        )
+        ),
+        Event::Piletilevi.new(
+          title: "Homme startiva Green Christmasi ajakava on paigas",
+          link: "http://www.piletilevi.ee/est/uudised/homme-startiva-green-christmasi-ajakava-on-paigas",
+          date: Time.parse("Fri, 27 Dec 13 00:00:00 +0200"),
+          id: "61041"
+        )        
       ]
     end
   end
