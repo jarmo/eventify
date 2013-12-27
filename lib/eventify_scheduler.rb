@@ -10,6 +10,7 @@ class EventifyScheduler
   def perform
     new_events = Eventify.new.new_events
     send_email new_events
+    new_events.each(&:save)
   end
 
   def send_email(new_events)

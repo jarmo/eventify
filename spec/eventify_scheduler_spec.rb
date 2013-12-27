@@ -19,6 +19,21 @@ describe EventifyScheduler do
 
       scheduler.send(:perform)
     end
+
+    it "saves new events into database" do
+      new_events = [
+        Event::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
+        Event::Base.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now)
+      ]
+      Eventify.any_instance.should_receive(:new_events).and_return(new_events)
+
+      scheduler = EventifyScheduler.new
+      scheduler.stub(:send_email)
+
+      scheduler.send(:perform)
+
+      Db.events.size.should == 2
+    end
   end
 
   it "#send_email" do
