@@ -69,13 +69,3 @@ class Eventify
     [EventProvider::Piletilevi, EventProvider::Ticketpro, EventProvider::FBI]
   end
 end
-
-if $PROGRAM_NAME == __FILE__
-  require "rufus-scheduler"
-  require File.expand_path("eventify_scheduler", __dir__)
-
-  scheduler = Rufus::Scheduler.new
-  scheduler.every("6h", EventifyScheduler, first_in: Time.now + 5)
-
-  scheduler.join
-end

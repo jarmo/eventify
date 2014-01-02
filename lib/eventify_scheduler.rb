@@ -17,3 +17,13 @@ class EventifyScheduler
   end
 
 end
+
+if $PROGRAM_NAME == __FILE__
+  require "rufus-scheduler"
+  require File.expand_path("eventify", __dir__)
+
+  scheduler = Rufus::Scheduler.new
+  scheduler.every("6h", EventifyScheduler, first_in: Time.now + 5)
+
+  scheduler.join
+end
