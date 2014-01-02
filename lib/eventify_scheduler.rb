@@ -12,8 +12,6 @@ class EventifyScheduler
   private
 
   def L(message)
-    return if defined? RSpec
-
     @logger ||= Logger.new(File.expand_path("../eventify.log", __dir__))
     @logger.debug(message.respond_to?(:call) ? message.call : message)
   end
