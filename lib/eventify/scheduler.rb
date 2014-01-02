@@ -3,8 +3,9 @@ require "logger"
 class Eventify::Scheduler
   def call(_)
     L("Fetch events.")
-    Eventify.new.process_new_events
-    L("Fetch done.")
+    eventify = Eventify.new
+    eventify.process_new_events
+    L("Fetch done with #{eventify.new_events.size} new events out of #{eventif.all_events} events.")
   rescue Exception => e
     L("Fetch failed with an error \"#{e.message}\": #{e.backtrace.join("\n")}")
   end
