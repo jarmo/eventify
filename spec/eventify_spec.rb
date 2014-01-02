@@ -21,6 +21,15 @@ describe Eventify do
 
       eventify.new_events.should == [new_event]
     end
+
+    it "caches the results" do
+      eventify = Eventify.new
+
+      event = EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
+      eventify.should_receive(:all_events).and_return([event])
+
+      2.times { eventify.new_events.should == [event] }
+    end
   end
 
   context "#all_events" do
@@ -106,6 +115,25 @@ describe Eventify do
       eventify.process_new_events
 
       Db.events.size.should == 2
+    end
+
+    it "returns with an empty array when there are no new events" do
+      eventify = Eventify.new
+      eventify.should_receive(:new_events).and_return([])
+
+      eventify.process_new_events.should == []
+    end
+
+    it "returns new events when there are some" do
+      new_events = [
+        EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
+        EventProvider::Base.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now)
+      ]
+      eventify = Eventify.new
+      eventify.should_receive(:new_events).and_return(new_events)
+      eventify.stub(:send_email)
+
+      eventify.process_new_events.should == new_events
     end
   end
 

@@ -12,19 +12,15 @@ class Eventify
   end
 
   def new_events
-    all_events.reject(&:exists?)
+    @new_events ||= all_events.reject(&:exists?)
   end
 
   def process_new_events
     all_new_events = new_events
-    L(proc {"Fetched #{all_events.size} events, out of which #{all_new_events.size} are new."})
-    return if all_new_events.empty?
+    return [] if all_new_events.empty?
 
     send_email all_new_events
-    L("Email sent.")
-
     all_new_events.each(&:save)
-    L("New events saved.")
   end
 
   def send_email(new_events)
