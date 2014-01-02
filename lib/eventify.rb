@@ -15,7 +15,7 @@ class Eventify
     all_events.reject(&:exists?)
   end
 
-  def perform
+  def process_new_events
     all_new_events = new_events
     L(proc {"Fetched #{all_events.size} events, out of which #{all_new_events.size} are new."})
     return if all_new_events.empty?

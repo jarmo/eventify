@@ -3,7 +3,7 @@ require "logger"
 class EventifyScheduler
   def call(_)
     L("Fetch events.")
-    perform
+    Eventify.new.process_new_events
     L("Fetch done.")
   rescue Exception => e
     L("Fetch failed with an error \"#{e.message}\": #{e.backtrace.join("\n")}")

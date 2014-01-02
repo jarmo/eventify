@@ -2,10 +2,9 @@ require "spec_helper"
 require File.expand_path("../lib/eventify_scheduler", __dir__)
 
 describe EventifyScheduler do
-  it "#call invokes #perform" do
-    scheduler = EventifyScheduler.new
-    scheduler.should_receive(:perform)
+  it "#call invokes Eventify#process_new_events" do
+    Eventify.any_instance.should_receive(:process_new_events)
 
-    scheduler.call nil
+    EventifyScheduler.new.call nil
   end
 end

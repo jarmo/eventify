@@ -73,7 +73,7 @@ describe Eventify do
     end
   end
 
-  context "#perform" do
+  context "#process_new_events" do
     it "sends out e-mail for new events" do
       new_events = [
         EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org"),
@@ -83,7 +83,7 @@ describe Eventify do
       eventify.should_receive(:new_events).and_return(new_events)
       eventify.should_receive(:send_email).with(new_events)
 
-      eventify.perform
+      eventify.process_new_events
     end
 
     it "does not send e-mail when no new events" do
@@ -91,7 +91,7 @@ describe Eventify do
       eventify.should_receive(:new_events).and_return([])
       eventify.should_not_receive(:send_email)
 
-      eventify.perform
+      eventify.process_new_events
     end
 
     it "saves new events into database" do
@@ -103,7 +103,7 @@ describe Eventify do
       eventify.should_receive(:new_events).and_return(new_events)
       eventify.stub(:send_email)
 
-      eventify.perform
+      eventify.process_new_events
 
       Db.events.size.should == 2
     end
