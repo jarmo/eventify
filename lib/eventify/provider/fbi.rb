@@ -1,7 +1,7 @@
 require "open-uri"
 require "nokogiri"
 
-module EventProvider
+module Eventify::Provider
   class FBI < Base
     URL = "http://www.fbi.ee/" 
 

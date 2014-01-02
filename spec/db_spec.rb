@@ -3,7 +3,7 @@ require "spec_helper"
 describe Db do
   context ".save" do
     it "saves events into database" do
-      event1 = EventProvider::Base.new(
+      event1 = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -11,7 +11,7 @@ describe Db do
       )
       Db.save event1
 
-      event2 = EventProvider::Base.new(
+      event2 = Eventify::Provider::Base.new(
         id: "86363",
         title: "Second event",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138080",
@@ -24,7 +24,7 @@ describe Db do
     end
 
     it "raises an error when event already exists" do
-      event = EventProvider::Base.new(
+      event = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -40,7 +40,7 @@ describe Db do
 
   context ".exists?" do
     it "true when event exists" do
-      event = EventProvider::Base.new(
+      event = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -52,7 +52,7 @@ describe Db do
     end
 
     it "false when event does not exist" do
-      event = EventProvider::Base.new(
+      event = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -63,7 +63,7 @@ describe Db do
     end
 
     it "false when event id is different" do
-      event1 = EventProvider::Base.new(
+      event1 = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -71,7 +71,7 @@ describe Db do
       )
       Db.save(event1)
 
-      event2 = EventProvider::Base.new(
+      event2 = Eventify::Provider::Base.new(
         id: "86363",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -82,7 +82,7 @@ describe Db do
     end
 
     it "false when event link is different" do
-      event1 = EventProvider::Base.new(
+      event1 = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -90,7 +90,7 @@ describe Db do
       )
       Db.save(event1)
 
-      event2 = EventProvider::Base.new(
+      event2 = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138099",
@@ -101,7 +101,7 @@ describe Db do
     end
 
     it "false when event provider is different" do
-      event1 = EventProvider::Base.new(
+      event1 = Eventify::Provider::Base.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -109,7 +109,7 @@ describe Db do
       )
       Db.save(event1)
 
-      event2 = EventProvider::Piletilevi.new(
+      event2 = Eventify::Provider::Piletilevi.new(
         id: "86362",
         title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -121,7 +121,7 @@ describe Db do
   end
 
   it ".events loads events from database" do
-    event1 = EventProvider::Base.new(
+    event1 = Eventify::Provider::Base.new(
       id: "86362",
       title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
       link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
@@ -129,7 +129,7 @@ describe Db do
     )
     Db.save(event1)
 
-    event2 = EventProvider::Piletilevi.new(
+    event2 = Eventify::Provider::Piletilevi.new(
       id: "86363",
       title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
       link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",

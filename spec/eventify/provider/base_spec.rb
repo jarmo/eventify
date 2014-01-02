@@ -1,12 +1,12 @@
 require "spec_helper"
 
-describe EventProvider::Base do
+describe Eventify::Provider::Base do
   context ".fetch" do
     it "needs to be implemented" do
-      class EventProvider::CustomEvent < EventProvider::Base; end
+      class Eventify::Provider::CustomEvent < Eventify::Provider::Base; end
 
       expect {
-        EventProvider::CustomEvent.fetch
+        Eventify::Provider::CustomEvent.fetch
       }.to raise_error(NotImplementedError)
     end
   end
@@ -20,9 +20,9 @@ describe EventProvider::Base do
         date: Time.parse("2013-12-27 12:30:11"),
       }
 
-      parsed_event = EventProvider::Base.new(event)
+      parsed_event = Eventify::Provider::Base.new(event)
       parsed_event.id.should == "86362"
-      parsed_event.provider.should == "EventProvider::Base"
+      parsed_event.provider.should == "Eventify::Provider::Base"
       parsed_event.title.should == event[:title]
       parsed_event.link.should == event[:link]
       parsed_event.date.should == event[:date]
@@ -36,8 +36,8 @@ describe EventProvider::Base do
       }
 
       expect {
-        EventProvider::Base.new(event)
-      }.to raise_error(EventProvider::Base::MissingAttributeError)
+        Eventify::Provider::Base.new(event)
+      }.to raise_error(Eventify::Provider::Base::MissingAttributeError)
     end
 
     it "raises an error when title is missing" do
@@ -48,8 +48,8 @@ describe EventProvider::Base do
       }
 
       expect {
-        EventProvider::Base.new(event)
-      }.to raise_error(EventProvider::Base::MissingAttributeError)
+        Eventify::Provider::Base.new(event)
+      }.to raise_error(Eventify::Provider::Base::MissingAttributeError)
     end
 
     it "raises an error when link is missing" do
@@ -60,30 +60,30 @@ describe EventProvider::Base do
       }
 
       expect {
-        EventProvider::Base.new(event)
-      }.to raise_error(EventProvider::Base::MissingAttributeError)
+        Eventify::Provider::Base.new(event)
+      }.to raise_error(Eventify::Provider::Base::MissingAttributeError)
     end
   end
 
   context "#provider" do
     it "uses class name" do
-      class EventProvider::CustomEvent < EventProvider::Base; end
-      EventProvider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider.should == "EventProvider::CustomEvent"
+      class Eventify::Provider::CustomEvent < Eventify::Provider::Base; end
+      Eventify::Provider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider.should == "Eventify::Provider::CustomEvent"
     end
   end
 
   context "#==" do
     it "true when id and provider match" do
-      EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org").should == EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
+      Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org").should == Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
     end
 
     it "false when id does not match" do
-      EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org").should_not == EventProvider::Base.new(id: "321", title: "foo", link: "http://example.org")
+      Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org").should_not == Eventify::Provider::Base.new(id: "321", title: "foo", link: "http://example.org")
     end
 
     it "false when class does not match" do
-      class EventProvider::CustomEvent < EventProvider::Base; end
-      EventProvider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").should_not ==  EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
+      class Eventify::Provider::CustomEvent < Eventify::Provider::Base; end
+      Eventify::Provider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").should_not ==  Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
     end
   end
 
@@ -95,7 +95,7 @@ describe EventProvider::Base do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       }
-      EventProvider::Base.new(event).save
+      Eventify::Provider::Base.new(event).save
 
       Db.events.size.should == 1
     end
@@ -107,7 +107,7 @@ describe EventProvider::Base do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       }
-      event_instance = EventProvider::Base.new(event)
+      event_instance = Eventify::Provider::Base.new(event)
       event_instance.save.should == event_instance
     end
   end
@@ -120,9 +120,9 @@ describe EventProvider::Base do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       }
-      EventProvider::Base.new(event).save
+      Eventify::Provider::Base.new(event).save
 
-      EventProvider::Base.new(event).should exist
+      Eventify::Provider::Base.new(event).should exist
     end
 
     it "false for not existing event" do
@@ -133,13 +133,13 @@ describe EventProvider::Base do
         date: Time.parse("2013-12-27 12:30:11"),
       }
 
-      EventProvider::Base.new(event).should_not exist
+      Eventify::Provider::Base.new(event).should_not exist
     end
   end
 
   it "sorts by title" do
-    event1 = EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org")
-    event2 = EventProvider::Piletilevi.new(id: "123", title: "bar", link: "http://example.org")
+    event1 = Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
+    event2 = Eventify::Provider::Piletilevi.new(id: "123", title: "bar", link: "http://example.org")
     [event1, event2].sort.should == [event2, event1]
   end
 end
