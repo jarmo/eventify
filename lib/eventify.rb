@@ -22,7 +22,9 @@ class Eventify
     all_new_events.each(&:save)
   end
 
+  attr_writer :providers
+
   def providers
-    [EventProvider::Piletilevi, EventProvider::Ticketpro, EventProvider::FBI]
+    @providers ||= [EventProvider::Piletilevi, EventProvider::Ticketpro, EventProvider::FBI]
   end
 end
