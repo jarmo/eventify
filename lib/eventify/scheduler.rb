@@ -1,6 +1,6 @@
 require "logger"
 
-class EventifyScheduler
+class Eventify::Scheduler
   def call(_)
     L("Fetch events.")
     Eventify.new.process_new_events
@@ -23,7 +23,7 @@ if $PROGRAM_NAME == __FILE__
   require File.expand_path("eventify", __dir__)
 
   scheduler = Rufus::Scheduler.new
-  scheduler.every("6h", EventifyScheduler, first_in: Time.now + 5)
+  scheduler.every("6h", Eventify::Scheduler, first_in: Time.now + 5)
 
   scheduler.join
 end
