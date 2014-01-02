@@ -1,5 +1,4 @@
 require "mail"
-require "logger"
 require File.expand_path("event_provider/base", __dir__)
 require File.expand_path("event_provider/fbi", __dir__)
 require File.expand_path("event_provider/piletilevi", __dir__)
@@ -52,13 +51,6 @@ class Eventify
 
     formatted_events << footer
     formatted_events.join("\n")
-  end
-
-  def L(message)
-    return if defined? RSpec
-
-    @logger ||= Logger.new(File.expand_path("../eventify.log", __dir__))
-    @logger.debug(message.respond_to?(:call) ? message.call : message)
   end
 
   def providers
