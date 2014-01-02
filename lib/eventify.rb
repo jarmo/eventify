@@ -17,7 +17,7 @@ class Eventify
 
   def process_new_events
     all_new_events = new_events
-    return [] if all_new_events.empty?
+    return if all_new_events.empty?
 
     send_email all_new_events
     all_new_events.each(&:save)
