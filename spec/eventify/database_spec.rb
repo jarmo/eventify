@@ -1,6 +1,6 @@
 require "spec_helper"
 
-describe Db do
+describe Eventify::Database do
   context ".save" do
     it "saves events into database" do
       event1 = Eventify::Provider::Base.new(
@@ -9,7 +9,7 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       )
-      Db.save event1
+      Eventify::Database.save event1
 
       event2 = Eventify::Provider::Base.new(
         id: "86363",
@@ -17,10 +17,10 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138080",
         date: Time.parse("2013-12-27 12:30:12"),
       )
-      Db.save event2
+      Eventify::Database.save event2
 
-      Db.events.size.should == 2
-      Db.events.should == [event1, event2]
+      Eventify::Database.events.size.should == 2
+      Eventify::Database.events.should == [event1, event2]
     end
 
     it "raises an error when event already exists" do
@@ -30,10 +30,10 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       )
-      Db.save event
+      Eventify::Database.save event
 
       expect {
-        Db.save event
+        Eventify::Database.save event
       }.to raise_error
     end
   end
@@ -46,9 +46,9 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       )
-      Db.save(event)
+      Eventify::Database.save(event)
 
-      Db.should exist(event)
+      Eventify::Database.should exist(event)
     end
 
     it "false when event does not exist" do
@@ -59,7 +59,7 @@ describe Db do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Db.should_not exist(event)
+      Eventify::Database.should_not exist(event)
     end
 
     it "false when event id is different" do
@@ -69,7 +69,7 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       )
-      Db.save(event1)
+      Eventify::Database.save(event1)
 
       event2 = Eventify::Provider::Base.new(
         id: "86363",
@@ -78,7 +78,7 @@ describe Db do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Db.should_not exist(event2)
+      Eventify::Database.should_not exist(event2)
     end
 
     it "false when event link is different" do
@@ -88,7 +88,7 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       )
-      Db.save(event1)
+      Eventify::Database.save(event1)
 
       event2 = Eventify::Provider::Base.new(
         id: "86362",
@@ -97,7 +97,7 @@ describe Db do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Db.should_not exist(event2)
+      Eventify::Database.should_not exist(event2)
     end
 
     it "false when event provider is different" do
@@ -107,7 +107,7 @@ describe Db do
         link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
         date: Time.parse("2013-12-27 12:30:11"),
       )
-      Db.save(event1)
+      Eventify::Database.save(event1)
 
       event2 = Eventify::Provider::Piletilevi.new(
         id: "86362",
@@ -116,7 +116,7 @@ describe Db do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Db.should_not exist(event2)
+      Eventify::Database.should_not exist(event2)
     end
   end
 
@@ -127,7 +127,7 @@ describe Db do
       link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
       date: Time.parse("2013-12-27 12:30:11"),
     )
-    Db.save(event1)
+    Eventify::Database.save(event1)
 
     event2 = Eventify::Provider::Piletilevi.new(
       id: "86363",
@@ -135,8 +135,8 @@ describe Db do
       link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
       date: Time.parse("2013-12-27 12:30:22"),
     )
-    Db.save(event2)
+    Eventify::Database.save(event2)
 
-    Db.events.should == [event1, event2]
+    Eventify::Database.events.should == [event1, event2]
   end
 end

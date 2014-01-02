@@ -97,7 +97,7 @@ describe Eventify::Provider::Base do
       }
       Eventify::Provider::Base.new(event).save
 
-      Db.events.size.should == 1
+      Eventify::Database.events.size.should == 1
     end
 
     it "returns self" do

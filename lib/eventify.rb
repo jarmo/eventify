@@ -2,7 +2,7 @@ require File.expand_path("eventify/provider/base", __dir__)
 require File.expand_path("eventify/provider/fbi", __dir__)
 require File.expand_path("eventify/provider/piletilevi", __dir__)
 require File.expand_path("eventify/provider/ticketpro", __dir__)
-require File.expand_path("db", __dir__)
+require File.expand_path("eventify/database", __dir__)
 require File.expand_path("eventify_mailer", __dir__)
 
 class Eventify

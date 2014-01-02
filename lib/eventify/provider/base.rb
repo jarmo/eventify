@@ -23,12 +23,12 @@ class Eventify
       end
 
       def save
-        Db.save self 
+        Database.save self 
         self
       end
 
       def exists?
-        Db.exists? self
+        Database.exists? self
       end
 
       def ==(other)
@@ -37,9 +37,9 @@ class Eventify
 
       alias_method :eql?, :==
 
-        def hash
-          "#{id}-#{provider}-#{link}".hash
-        end
+      def hash
+        "#{id}-#{provider}-#{link}".hash
+      end
 
       def <=>(other)
         title <=> other.title

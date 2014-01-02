@@ -121,7 +121,7 @@ describe Eventify do
 
       eventify.process_new_events
 
-      Db.events.size.should == 2
+      Eventify::Database.events.size.should == 2
     end
   end
 end
