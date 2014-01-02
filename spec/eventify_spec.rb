@@ -90,7 +90,7 @@ describe Eventify do
       ]
       eventify = Eventify.new
       eventify.should_receive(:new_events).and_return(new_events)
-      eventify.should_receive(:send_email).with(new_events)
+      EventifyMailer.should_receive(:deliver).with(new_events)
 
       eventify.process_new_events
     end
@@ -98,7 +98,7 @@ describe Eventify do
     it "does not send e-mail when no new events" do
       eventify = Eventify.new
       eventify.should_receive(:new_events).and_return([])
-      eventify.should_not_receive(:send_email)
+      EventifyMailer.should_not_receive(:deliver)
 
       eventify.process_new_events
     end
@@ -110,41 +110,11 @@ describe Eventify do
       ]
       eventify = Eventify.new
       eventify.should_receive(:new_events).and_return(new_events)
-      eventify.stub(:send_email)
+      EventifyMailer.stub(:deliver)
 
       eventify.process_new_events
 
       Db.events.size.should == 2
     end
-  end
-
-  it "#send_email" do
-    eventify = Eventify.new
-    ::Mail.should_receive(:deliver)
-
-    eventify.send_email([])
-  end
-
-  it "#format_for_email" do
-    new_events = [
-      EventProvider::Base.new(id: "123", title: "foo", link: "http://example.org/1", date: Time.now),
-      EventProvider::Piletilevi.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now),
-      EventProvider::Base.new(id: "456", title: "bar3", link: "http://example.org/3", date: Time.now)
-    ]
-
-    eventify = Eventify.new
-    eventify.format_for_email(new_events).should == "There are some rumours going on about 3 possible awesome events:
-
-* bar
-    http://example.org/2
-
-* bar3
-    http://example.org/3
-
-* foo
-    http://example.org/1
-
-Your Humble Servant,
-Eventify"
   end
 end
