@@ -97,7 +97,7 @@ describe Eventify do
       ]
       eventify = Eventify.new
       eventify.should_receive(:new_events).and_return(new_events)
-      EventifyMailer.should_receive(:deliver).with(new_events)
+      Eventify::Mail.should_receive(:deliver).with(new_events)
 
       eventify.process_new_events
     end
@@ -105,7 +105,7 @@ describe Eventify do
     it "does not send e-mail when no new events" do
       eventify = Eventify.new
       eventify.should_receive(:new_events).and_return([])
-      EventifyMailer.should_not_receive(:deliver)
+      Eventify::Mail.should_not_receive(:deliver)
 
       eventify.process_new_events
     end
@@ -117,7 +117,7 @@ describe Eventify do
       ]
       eventify = Eventify.new
       eventify.should_receive(:new_events).and_return(new_events)
-      EventifyMailer.stub(:deliver)
+      Eventify::Mail.stub(:deliver)
 
       eventify.process_new_events
 

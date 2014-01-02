@@ -1,10 +1,10 @@
 require "spec_helper"
 
-describe EventifyMailer do
+describe Eventify::Mail do
   it ".deliver" do
     ::Mail.should_receive(:deliver)
 
-    EventifyMailer.deliver([])
+    Eventify::Mail.deliver([])
   end
 
   it ".format" do
@@ -14,7 +14,7 @@ describe EventifyMailer do
       Eventify::Provider::Base.new(id: "456", title: "bar3", link: "http://example.org/3", date: Time.now)
     ]
 
-    EventifyMailer.format(new_events).should == "There are some rumours going on about 3 possible awesome events:
+    Eventify::Mail.format(new_events).should == "There are some rumours going on about 3 possible awesome events:
 
 * bar
     http://example.org/2

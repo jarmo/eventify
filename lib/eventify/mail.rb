@@ -1,6 +1,6 @@
 require "mail"
 
-class EventifyMailer
+class Eventify::Mail
   class << self
     def deliver(new_events)
       formatted_events = format(new_events)
