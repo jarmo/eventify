@@ -2,6 +2,10 @@ PATH
   remote: .
   specs:
     eventify (0.9.0)
+      mail
+      nokogiri
+      simple-rss
+      sqlite3
 
 GEM
   remote: https://rubygems.org/
@@ -96,14 +100,10 @@ DEPENDENCIES
   guard
   guard-bundler
   guard-rspec
-  mail
-  nokogiri
   rake
   rspec
   ruby_gntp
   rufus-scheduler
-  simple-rss
-  sqlite3
   wdm
   webmock
   win32console
