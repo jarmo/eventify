@@ -15,9 +15,12 @@ group :development do
   gem "win32console", platform: :mingw
   gem "ruby_gntp"
   gem "byebug"
+  gem "yard"
 end
 
 group :test do
   gem "rspec"
   gem "webmock"
 end
+
+gemspec
