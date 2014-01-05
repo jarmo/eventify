@@ -1,6 +1,23 @@
 require "spec_helper"
 
 describe Eventify do
+  context "#initialize" do
+    it "initializes configuration" do
+      Eventify.new.configuration[:subscribers].should == ["user@example.org"]
+    end
+
+    it "allows to override configuration" do
+      Eventify.new(foo: "bar").configuration[:foo].should == "bar"
+    end
+  end
+
+  context "#configuration" do
+    it "provides access to the configuration instance" do
+      eventify = Eventify.new
+      eventify.configuration.should == eventify.instance_variable_get(:@configuration)
+    end
+  end
+
   context "#new_events" do
     it "all are new" do
       eventify = Eventify.new
@@ -95,9 +112,10 @@ describe Eventify do
         Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org"),
         Eventify::Provider::Base.new(id: "456", title: "bar", link: "http://example.org")
       ]
-      eventify = Eventify.new
+      configuration = double("configuration")
+      eventify = Eventify.new configuration
       eventify.should_receive(:new_events).and_return(new_events)
-      Eventify::Mail.should_receive(:deliver).with(new_events)
+      Eventify::Mail.should_receive(:deliver).with(new_events, configuration)
 
       eventify.process_new_events
     end

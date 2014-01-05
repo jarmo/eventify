@@ -2,19 +2,20 @@ require "mail"
 
 class Eventify::Mail
   class << self
-    def deliver(new_events)
+    def deliver(new_events, configuration)
       formatted_events = format(new_events)
 
-      ::Mail.deliver do
-        delivery_method :smtp, {:address => "mail.neti.ee", :domain => "neti.ee",
-                                :port => 25, :openssl_verify_mode => "none"}
+      configuration[:subscribers].each do |subscriber|
+        ::Mail.deliver do
+          delivery_method :smtp, configuration[:mail]
 
-        content_type "text/plain; charset=utf-8"
+          content_type "text/plain; charset=utf-8"
 
-        to "jarmo.p@gmail.com"
-        from "no-reply@eventify.io"
-        subject "Event Rumours"
-        body formatted_events
+          to subscriber
+          from "no-reply@eventify.io"
+          subject "Event Rumours"
+          body formatted_events
+        end
       end
     end
 

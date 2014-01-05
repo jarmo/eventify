@@ -1,10 +1,12 @@
 require "spec_helper"
 
 describe Eventify::Mail do
-  it ".deliver" do
-    ::Mail.should_receive(:deliver)
+  context ".deliver" do
+    it "sends e-mail to all subscribers" do
+      ::Mail.should_receive(:deliver).twice
 
-    Eventify::Mail.deliver([])
+      Eventify::Mail.deliver([], Eventify::Configuration.new(subscribers: ["foo@example.org", "bar@example.org"]))
+    end
   end
 
   it ".format" do
