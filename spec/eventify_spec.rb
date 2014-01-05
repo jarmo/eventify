@@ -1,6 +1,11 @@
 require "spec_helper"
 
 describe Eventify do
+  before do
+    stub_const "Eventify::Configuration::PATH", File.join(Dir.tmpdir, "eventify-config.yml")
+    File.delete Eventify::Configuration::PATH if File.exists? Eventify::Configuration::PATH
+  end
+
   context "#initialize" do
     it "initializes configuration" do
       Eventify.new.configuration[:subscribers].should == ["user@example.org"]
