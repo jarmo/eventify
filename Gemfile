@@ -9,7 +9,6 @@ group :development do
   gem "wdm", platform: :mingw
   gem "win32console", platform: :mingw
   gem "ruby_gntp"
-  gem "byebug"
 end
 
 gemspec
