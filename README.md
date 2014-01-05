@@ -15,11 +15,17 @@ providers/organizers.
 
 ## Usage
 
+Create configuration file:
+
+    $ ruby -reventify -e "Eventify::Configuration.new.save"
+
+Edit configuration settings by adding your e-mail into `subscribers` list:
+    
+    $ vi ~/.eventify/config.yaml
+
 Run it from command line and add it into `cron`:
 
-    ruby -reventify -e "Eventify.new.process_new_events"
-
-## Configuration
+    $ ruby -reventify -e "Eventify.new.process_new_events"
 
 ## Supported Providers
 
