@@ -22,7 +22,7 @@ module Eventify::Provider
     class << self
       def fetch
         URLS.each.reduce([]) do |memo, url|
-          rss = open(url) { |f| SimpleRSS.parse f.read.encode("UTF-8") }
+          rss = open(url) { |f| SimpleRSS.parse f.read.encode("UTF-8").force_encoding("UTF-8") }
           memo + rss.entries.map { |entry| new id: entry.guid, title: entry.title, link: entry.link, date: entry.pubDate }
         end
       end
