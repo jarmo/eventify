@@ -13,3 +13,5 @@ group :development do
 end
 
 gemspec
+
+gem "coveralls", :require => false

@@ -1,3 +1,9 @@
+require "simplecov"
+require 'coveralls'
+
+SimpleCov.formatter = Coveralls::SimpleCov::Formatter
+SimpleCov.start
+
 require File.expand_path("../lib/eventify", __dir__)
 
 require "tempfile"
