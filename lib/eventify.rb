@@ -1,4 +1,5 @@
 require File.expand_path("eventify/version", __dir__)
+require File.expand_path("eventify/configuration", __dir__)
 require File.expand_path("eventify/provider/base", __dir__)
 require File.expand_path("eventify/provider/fbi", __dir__)
 require File.expand_path("eventify/provider/piletilevi", __dir__)

@@ -1,7 +1,7 @@
 require "sqlite3"
 
 class Eventify::Database
-  PATH = File.expand_path("../../database/eventify.db", __dir__)
+  PATH = File.expand_path("~/.eventify/events.sqlite3", __dir__)
 
   class << self
     def exists?(event)
@@ -36,7 +36,7 @@ class Eventify::Database
 
     def sqlite
       @sqlite ||= begin
-                    FileUtils.mkdir_p File.expand_path("../../database", __dir__)
+                    FileUtils.mkdir_p File.dirname(PATH)
                     database = SQLite3::Database.new PATH
                     database.results_as_hash = true
 
