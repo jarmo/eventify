@@ -1,4 +1,5 @@
 require "yaml"
+require "fileutils"
 
 class Eventify::Configuration
   PATH = File.expand_path(File.join(ENV["HOME"], "/.eventify/config.yaml"))
@@ -8,6 +9,7 @@ class Eventify::Configuration
   end
 
   def save
+    FileUtils.mkdir_p File.dirname(PATH)
     File.open(PATH, "w") { |f| f.write YAML.dump(@configuration) }
   end
 
