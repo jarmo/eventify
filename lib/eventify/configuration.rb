@@ -10,6 +10,7 @@ class Eventify::Configuration
 
   def save
     FileUtils.mkdir_p File.dirname(PATH)
+    @configuration[:subscribers] = [@configuration[:subscribers]].flatten
     File.open(PATH, "w") { |f| f.write YAML.dump(@configuration) }
   end
 

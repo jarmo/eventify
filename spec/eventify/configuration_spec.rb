@@ -36,6 +36,11 @@ describe Eventify::Configuration do
       Eventify::Configuration.new(foo: "bar").save
       YAML.load(File.read(Eventify::Configuration::PATH))[:foo].should == "bar"
     end
+
+    it "saves subscribers as an array even if it is specified as a string" do
+      Eventify::Configuration.new(subscribers: "foo@bar.com").save
+      YAML.load(File.read(Eventify::Configuration::PATH))[:subscribers].should == ["foo@bar.com"]
+    end
   end
 
   context "#[]" do
