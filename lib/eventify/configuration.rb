@@ -22,7 +22,7 @@ class Eventify::Configuration
   def default_configuration
     {
       subscribers: ["user@example.org"],
-      mail: Mail.delivery_method.settings
+      mail: Mail.delivery_method.settings.merge(openssl_verify_mode: "none")
     }
   end
 

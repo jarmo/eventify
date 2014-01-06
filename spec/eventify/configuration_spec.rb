@@ -10,7 +10,7 @@ describe Eventify::Configuration do
     it "has default settings by default" do
       configuration = Eventify::Configuration.new
       configuration[:subscribers].should == ["user@example.org"]
-      configuration[:mail].should == Mail.delivery_method.settings
+      configuration[:mail].should == Mail.delivery_method.settings.merge(openssl_verify_mode: "none")
     end
 
     it "allows to override settings" do
