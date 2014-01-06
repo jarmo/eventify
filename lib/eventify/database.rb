@@ -1,7 +1,7 @@
 require "sqlite3"
 
 class Eventify::Database
-  PATH = File.expand_path("~/.eventify/events.sqlite3", __dir__)
+  PATH = File.expand_path(File.join(ENV["HOME"], "/.eventify/events.sqlite3"))
 
   class << self
     def exists?(event)

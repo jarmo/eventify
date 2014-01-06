@@ -1,7 +1,7 @@
 require "yaml"
 
 class Eventify::Configuration
-  PATH = File.expand_path("~/.eventify/config.yaml")
+  PATH = File.expand_path(File.join(ENV["HOME"], "/.eventify/config.yaml"))
 
   def initialize(configuration = {})
     @configuration = default_configuration.merge(load).merge(configuration)
