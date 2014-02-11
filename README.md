@@ -22,17 +22,17 @@ providers/organizers.
 
 * Create configuration file with your e-mail address:
 
-    $ ruby -reventify -e "Eventify::Configuration.new(subscribers: ['foo@bar.com']).save"
+    `$ ruby -reventify -e "Eventify::Configuration.new(subscribers: ['foo@bar.com']).save"`
 
 * Run it from command line and add it into `cron`:
 
-    $ ruby -reventify -e "Eventify.new.process_new_events"
+    `$ ruby -reventify -e "Eventify.new.process_new_events"`
 
 * Check your e-mail for information about upcoming events.
 
 * Edit configuration settings if defaults won't work for you:
     
-    $ vi ~/.eventify/config.yaml
+     `$ vi ~/.eventify/config.yaml`
 
 ## Supported Providers
 
