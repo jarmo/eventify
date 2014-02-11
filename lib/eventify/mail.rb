@@ -24,7 +24,7 @@ class Eventify::Mail
 
       formatted_events = events.sort.reduce([header, ""]) do |memo, event|
         memo << "* #{event.title}".force_encoding("UTF-8")
-        memo << "    #{event.link}"
+        memo << "    #{event.link}".force_encoding("UTF-8")
         memo << ""
       end
 
