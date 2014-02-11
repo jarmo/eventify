@@ -1,7 +1,5 @@
 source "https://rubygems.org"
 
-gem "rufus-scheduler"
-
 group :development do
   gem "guard"
   gem "guard-rspec"
