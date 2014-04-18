@@ -8,10 +8,11 @@ module Eventify::Provider
     class << self
       def fetch
         doc = Nokogiri::HTML(open(URL))
-        doc.search("#tab-2 .quickSchedule-item").map do |tr|
-          title = tr.at(".title a")
-          url = URI.join(URL, title["href"]).to_s
-          new id: url, title: "#{title.content} (#{tr.at(".date span").content})", link: url, date: Time.now
+        doc.search("#tab-2 .quickSchedule-item .title a").map do |a|
+          url = URI.join(URL, a["href"]).to_s
+          movie_info = Nokogiri::HTML(open(url)).at(".movie-info")
+
+          new id: url, title: "#{movie_info.at("h2").content}/#{movie_info.at(".title-original").content}", link: url, date: Time.now
         end
       end
     end
