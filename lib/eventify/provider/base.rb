@@ -32,13 +32,13 @@ class Eventify
       end
 
       def ==(other)
-        id == other.id && provider == other.provider
+        id == other.id && provider == other.provider && title == other.title
       end
 
       alias_method :eql?, :==
 
       def hash
-        "#{id}-#{provider}-#{link}".hash
+        "#{id}-#{provider}-#{link}-#{title}".hash
       end
 
       def <=>(other)

@@ -11,4 +11,4 @@ end
 
 gemspec
 
-gem "coveralls", :require => false
+gem "coveralls", require: false

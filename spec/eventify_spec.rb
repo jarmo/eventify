@@ -100,7 +100,13 @@ describe Eventify do
 
   context "#providers" do
     it "returns all providers" do
-      Eventify.new.providers.should == [Eventify::Provider::Piletilevi, Eventify::Provider::Ticketpro, Eventify::Provider::FBI]
+      expected_providers = [
+        Eventify::Provider::Piletilevi,
+                            Eventify::Provider::Ticketpro,
+                            Eventify::Provider::FBI,
+                            Eventify::Provider::SolarisKino
+      ]
+      Eventify.new.providers.should == expected_providers
     end
     
     it "allows to override" do

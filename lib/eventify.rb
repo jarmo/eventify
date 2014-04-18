@@ -3,6 +3,7 @@ require File.expand_path("eventify/configuration", __dir__)
 require File.expand_path("eventify/provider/base", __dir__)
 require File.expand_path("eventify/provider/fbi", __dir__)
 require File.expand_path("eventify/provider/piletilevi", __dir__)
+require File.expand_path("eventify/provider/solaris_kino", __dir__)
 require File.expand_path("eventify/provider/ticketpro", __dir__)
 require File.expand_path("eventify/database", __dir__)
 require File.expand_path("eventify/mail", __dir__)
@@ -33,6 +34,11 @@ class Eventify
   attr_writer :providers
 
   def providers
-    @providers ||= [Eventify::Provider::Piletilevi, Eventify::Provider::Ticketpro, Eventify::Provider::FBI]
+    @providers ||= [
+      Eventify::Provider::Piletilevi,
+      Eventify::Provider::Ticketpro,
+      Eventify::Provider::FBI,
+      Eventify::Provider::SolarisKino
+    ]
   end
 end
