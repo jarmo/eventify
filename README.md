@@ -5,14 +5,14 @@
 [![Dependency Status](https://gemnasium.com/jarmo/eventify.png)](https://gemnasium.com/jarmo/eventify)
 [![Code Climate](https://codeclimate.com/github/jarmo/eventify.png)](https://codeclimate.com/github/jarmo/eventify)
 
-Are you tired of missing some cool events because you just didn't know them
+Are you tired of missing some cool concerts/events because you just didn't know them
 happening? Are you tired of not getting good sitting places because you heard
 of some event too late?
 
 If the answer was yes to either of these questions then Eventify can help you!
 
 Eventify will notify you about upcoming events from different
-providers/organizers.
+providers/organizers in an aggregate way.
 
 ## Installation
 
@@ -40,6 +40,7 @@ The following providers are currently supported:
 
 * [FBI](http://fbi.ee)
 * [Piletilevi](http://www.piletilevi.ee/)
+* [Solaris Kino](http://solariskino.ee/)
 * [Ticketpro](http://www.ticketpro.ee/)
 
 ## Adding New Providers
