@@ -1,29 +1,16 @@
-require "simple-rss"
-require "open-uri"
+require "faraday"
+require "json"
 
 module Eventify::Provider
   class Piletilevi < Base
-    # http://www.piletilevi.ee/est/uldinfo/rss
-    URLS = [
-      "http://www.piletilevi.ee/news.rss.php?path=est/uudised",
-      "http://www.piletilevi.ee/news.rss.php?path=est/teatriuudised",
-      "http://www.piletilevi.ee/news.rss.php?path=est/muudatused",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/muusika",
-      # 404?
-      #"http://www.piletilevi.ee/category.rss.php?path=est/piletid/teater_-_kunst",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/kogupere",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/sport",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/festival",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/film",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/kinkekaardid",
-      "http://www.piletilevi.ee/category.rss.php?path=est/piletid/varia"
-    ]
+    URL = URI.parse("http://www.piletilevi.ee/ajaxCaller/method:getConcertsList/start:0/limit:500/id:58103/type:any/")
 
     class << self
       def fetch
-        URLS.each.reduce([]) do |memo, url|
-          rss = SimpleRSS.parse open(url)
-          memo + rss.entries.map { |entry| new id: entry.guid, title: entry.title, link: entry.link, date: entry.pubDate }
+        json = JSON.parse(Faraday.new(url: "#{URL.scheme}://#{URL.host}").get(URL.path).body) rescue {}
+        entries = json["responseData"] && json["responseData"]["concert"] || []
+        entries.map do |entry|
+          new id: entry["id"], title: entry["title"], link: entry["link"], date: Time.at(entry["modifiedTimeStamp"].to_i)
         end
       end
     end

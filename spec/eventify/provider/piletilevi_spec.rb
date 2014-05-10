@@ -3,34 +3,44 @@ require "spec_helper"
 describe Eventify::Provider::Piletilevi do
   context "#fetch" do
     it "fetches events" do
-      stub_request(:get, Eventify::Provider::Piletilevi::URLS[0]).to_return(body: File.read(File.expand_path("../../support/piletilevi-music.xml", __dir__)))
-      stub_request(:get, Eventify::Provider::Piletilevi::URLS[1]).to_return(body: File.read(File.expand_path("../../support/piletilevi-news.xml", __dir__)))
-
-      Eventify::Provider::Piletilevi::URLS[2..-1].each do |url|
-        stub_request(:get, url).to_return(body: File.read(File.expand_path("../../support/piletilevi-empty.xml", __dir__)))
-      end
+      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: File.read(File.expand_path("../../support/piletilevi.json", __dir__)))
 
       events = Eventify::Provider::Piletilevi.fetch
       events.should == [
         Eventify::Provider::Piletilevi.new(
-          title: "Koit Toome ja Karl-Erik Taukar 17.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
-          link: "http://www.piletilevi.ee/est/piletid/muusika/rock_ja_pop/?concert=138090",
-          date: Time.parse("2013-12-27 12:30:11"),
-          id: "86362"
+          title: "Deemonid",
+          link: "http://www.piletilevi.ee/est/piletid/teater/muu/deemonid-146082/",
+          date: Time.at(1399661703),
+          id: "146082"
         ),
         Eventify::Provider::Piletilevi.new(
-          title: "Ott Lepland 04.01.2014 - 21:00 - Rock Cafe, Tallinn, Eesti",
-          link: "http://www.piletilevi.ee/est/piletid/muusika/show/?concert=138050",
-          date: Time.parse("2013-12-27 11:16:14"),
-          id: "86359"
+          title: "Naeru Akadeemia",
+          link: "http://www.piletilevi.ee/est/piletid/teater/muu/naeru-akadeemia-146075/",
+          date: Time.at(1399659968),
+          id: "146075"
         ),
         Eventify::Provider::Piletilevi.new(
-          title: "Homme startiva Green Christmasi ajakava on paigas",
-          link: "http://www.piletilevi.ee/est/uudised/homme-startiva-green-christmasi-ajakava-on-paigas",
-          date: Time.parse("Fri, 27 Dec 13 00:00:00 +0200"),
-          id: "61041"
+          title: "Utoopia rannik. III osa. Kaldale heidetud.",
+          link: "http://www.piletilevi.ee/est/piletid/teater/muu/utoopia-rannik-iii-osa-kaldale-heidetud-146055/",
+          date: Time.at(1399657875),
+          id: "146055"
         )        
       ]
+    end
+
+    it "works without concerts" do
+      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: %q|{"responseData": {}}|)
+      Eventify::Provider::Piletilevi.fetch.should == []
+    end
+
+    it "works without response data" do
+      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: %q|{"foo": {}}|)
+      Eventify::Provider::Piletilevi.fetch.should == []
+    end
+
+    it "works without json response" do
+      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: %q|foo|)
+      Eventify::Provider::Piletilevi.fetch.should == []
     end
   end
 end
