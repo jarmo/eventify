@@ -7,10 +7,10 @@ module Eventify::Provider
 
     class << self
       def fetch
-        json = JSON.parse(Faraday.new(url: "#{URL.scheme}://#{URL.host}").get(URL.path).body) rescue {}
-        entries = json["responseData"] && json["responseData"]["concert"] || []
+        json = JSON.parse(Faraday.new(url: "#{URL.scheme}://#{URL.host}").get(URL.path).body, symbolize_names: true) rescue {}
+        entries = json[:responseData] && json[:responseData][:concert] || []
         entries.map do |entry|
-          new id: entry["id"], title: entry["title"], link: entry["link"], date: Time.at(entry["modifiedTimeStamp"].to_i)
+          new id: entry[:id], title: entry[:title], link: entry[:link], date: Time.at(entry[:modifiedTimeStamp].to_i)
         end
       end
     end
