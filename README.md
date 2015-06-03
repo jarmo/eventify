@@ -41,7 +41,6 @@ The following providers are currently supported:
 * [FBI](http://fbi.ee)
 * [Piletilevi](http://www.piletilevi.ee/)
 * [Solaris Kino](http://solariskino.ee/)
-* [Ticketpro](http://www.ticketpro.ee/)
 
 ## Adding New Providers
 
