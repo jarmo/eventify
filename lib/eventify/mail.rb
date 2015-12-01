@@ -12,7 +12,7 @@ class Eventify::Mail
           content_type "text/plain; charset=utf-8"
 
           to subscriber
-          from "Eventify <no-reply@eventify.io>"
+          from "Eventify <no-reply@eventify.pw>"
           subject "Event Rumours"
           body formatted_events
         end
