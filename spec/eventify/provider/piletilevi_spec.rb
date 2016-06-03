@@ -8,22 +8,22 @@ describe Eventify::Provider::Piletilevi do
       events = Eventify::Provider::Piletilevi.fetch
       events.should == [
         Eventify::Provider::Piletilevi.new(
-          title: "Deemonid",
-          link: "http://www.piletilevi.ee/est/piletid/teater/muu/deemonid-146082/",
-          date: Time.at(1399661703),
-          id: "146082"
+          title:"Jelena Vaenga \/ \u0415\u043b\u0435\u043d\u0430 \u0412\u0430\u0435\u043d\u0433\u0430",
+          link:"http:/\/www.piletilevi.ee\/est\/piletid\/muusika\/rock-ja-pop\/jelena-vaenga-elena-vaenga-190326\/",
+          date: Time.at(1484326800),
+          id: "190326"
         ),
         Eventify::Provider::Piletilevi.new(
-          title: "Naeru Akadeemia",
-          link: "http://www.piletilevi.ee/est/piletid/teater/muu/naeru-akadeemia-146075/",
-          date: Time.at(1399659968),
-          id: "146075"
+          title:"Head t\u00fc\u00fcbid",
+          link:"http:\/\/www.piletilevi.ee\/est\/piletid\/film\/krimifilm\/head-tuubid-190410\/",
+          date: Time.at(1465405200),
+          id: "190410"
         ),
         Eventify::Provider::Piletilevi.new(
-          title: "Utoopia rannik. III osa. Kaldale heidetud.",
-          link: "http://www.piletilevi.ee/est/piletid/teater/muu/utoopia-rannik-iii-osa-kaldale-heidetud-146055/",
-          date: Time.at(1399657875),
-          id: "146055"
+          title:"Teismelised ninjakilpkonnad: Varjust v\u00e4lja (3D)",
+          link:"http:\/\/www.piletilevi.ee\/est\/piletid\/film\/marul\/teismelised-ninjakilpkonnad-varjust-valja-3d-190405\/",
+          date: Time.at(1465491600),
+          id: "190405"
         )        
       ]
     end
