@@ -3,7 +3,7 @@ require "json"
 
 module Eventify::Provider
   class Piletilevi < Base
-    URL = URI.parse("http://www.piletilevi.ee/ajaxCaller/method:getConcertsList/start:0/limit:500/id:58103/type:any/")
+    URL = URI.parse("https://www.piletilevi.ee/ajaxCaller/method:getConcertsListInfo/id:1089/type:catalog_category")
 
     class << self
       def fetch
