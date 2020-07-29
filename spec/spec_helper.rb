@@ -23,3 +23,10 @@ RSpec.configure do |config|
     Eventify::Database.instance_variable_set(:@sqlite, nil)
   end
 end
+
+# monkey-patch StubSocket for backwards compatibility so that specs would pass
+# on newer Rubies
+class StubSocket
+  def close
+  end
+end
