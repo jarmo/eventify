@@ -34,7 +34,7 @@ describe Eventify::Database do
 
       expect {
         Eventify::Database.save event
-      }.to raise_error
+      }.to raise_error(SQLite3::ConstraintException)
     end
   end
 
