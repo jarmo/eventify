@@ -3,44 +3,30 @@ require "spec_helper"
 describe Eventify::Provider::Piletilevi do
   context "#fetch" do
     it "fetches events" do
-      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: File.read(File.expand_path("../../support/piletilevi.json", __dir__)))
+      stub_request(:get, "#{Eventify::Provider::Piletilevi::URL}/page:1").to_return(body: File.read(File.expand_path("../../support/piletilevi-page1.json", __dir__)))
+      stub_request(:get, "#{Eventify::Provider::Piletilevi::URL}/page:2").to_return(body: File.read(File.expand_path("../../support/piletilevi-page2.json", __dir__)))
 
       events = Eventify::Provider::Piletilevi.fetch
       expect(events).to eq([
         Eventify::Provider::Piletilevi.new(
-          title:"Jelena Vaenga \/ \u0415\u043b\u0435\u043d\u0430 \u0412\u0430\u0435\u043d\u0433\u0430",
-          link:"http:/\/www.piletilevi.ee\/est\/piletid\/muusika\/rock-ja-pop\/jelena-vaenga-elena-vaenga-190326\/",
-          date: Time.at(1484326800),
-          id: "190326"
+          title:"Apsilankyk edukaciniame zoologijos sode ZOOPARK.LT",
+          link: "https://www.piletilevi.ee/est/piletid/varia/apsilankyk-edukaciniame-zoologijos-sode-zooparklt-53017/",
+          date: Time.at(1535871600),
+          id: 53017
         ),
         Eventify::Provider::Piletilevi.new(
-          title:"Head t\u00fc\u00fcbid",
-          link:"http:\/\/www.piletilevi.ee\/est\/piletid\/film\/krimifilm\/head-tuubid-190410\/",
-          date: Time.at(1465405200),
-          id: "190410"
+          title: "Huumoriteater ''ENSV kohvik''",
+          link: "//www.kinkekaart.ee/est/piletid/teater/komoodia/huumoriteater-ensv-kohvik-318916/",
+          date: Time.at(1577898000),
+          id: 21428
         ),
         Eventify::Provider::Piletilevi.new(
-          title:"Teismelised ninjakilpkonnad: Varjust v\u00e4lja (3D)",
-          link:"http:\/\/www.piletilevi.ee\/est\/piletid\/film\/marul\/teismelised-ninjakilpkonnad-varjust-valja-3d-190405\/",
-          date: Time.at(1465491600),
-          id: "190405"
+          title: "Viiuldaja katusel / J. Steini / J.Bocki / S. Harnicki muusikal",
+          link: "https://www.piletilevi.ee/est/piletid/muusika/muusikal/viiuldaja-katusel-j-steini-jbocki-s-harnicki-muusikal-40385/",
+          date: Time.at(1610038800),
+          id: 40385
         )        
       ])
-    end
-
-    it "works without concerts" do
-      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: %q|{"responseData": {}}|)
-      expect(Eventify::Provider::Piletilevi.fetch).to eq([])
-    end
-
-    it "works without response data" do
-      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: %q|{"foo": {}}|)
-      expect(Eventify::Provider::Piletilevi.fetch).to eq([])
-    end
-
-    it "works without json response" do
-      stub_request(:get, Eventify::Provider::Piletilevi::URL.to_s).to_return(body: %q|foo|)
-      expect(Eventify::Provider::Piletilevi.fetch).to eq([])
     end
   end
 end
