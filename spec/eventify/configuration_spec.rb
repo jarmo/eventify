@@ -9,43 +9,43 @@ describe Eventify::Configuration do
   context "#initialize" do
     it "has default settings by default" do
       configuration = Eventify::Configuration.new
-      configuration[:subscribers].should == ["user@example.org"]
-      configuration[:mail].should == Mail.delivery_method.settings.merge(openssl_verify_mode: "none")
+      expect(configuration[:subscribers]).to eq(["user@example.org"])
+      expect(configuration[:mail]).to eq(Mail.delivery_method.settings.merge(openssl_verify_mode: "none"))
     end
 
     it "allows to override settings" do
       File.open(Eventify::Configuration::PATH, "w") { |f| f.write YAML.dump(foo: "baz") }
 
       configuration = Eventify::Configuration.new(foo: "bar")
-      configuration[:foo].should == "bar"
-      configuration[:subscribers].should == ["user@example.org"]
+      expect(configuration[:foo]).to eq("bar")
+      expect(configuration[:subscribers]).to eq(["user@example.org"])
     end
 
     it "loads settings from file too" do
       File.open(Eventify::Configuration::PATH, "w") { |f| f.write YAML.dump(bar: "foo") }
 
       configuration = Eventify::Configuration.new(foo: "bar")
-      configuration[:foo].should == "bar"
-      configuration[:bar].should == "foo"
-      configuration[:subscribers].should == ["user@example.org"]
+      expect(configuration[:foo]).to eq("bar")
+      expect(configuration[:bar]).to eq("foo")
+      expect(configuration[:subscribers]).to eq(["user@example.org"])
     end
   end
 
   context "#save" do
     it "saves config as yaml" do
       Eventify::Configuration.new(foo: "bar").save
-      YAML.load(File.read(Eventify::Configuration::PATH))[:foo].should == "bar"
+      expect(YAML.load(File.read(Eventify::Configuration::PATH))[:foo]).to eq("bar")
     end
 
     it "saves subscribers as an array even if it is specified as a string" do
       Eventify::Configuration.new(subscribers: "foo@bar.com").save
-      YAML.load(File.read(Eventify::Configuration::PATH))[:subscribers].should == ["foo@bar.com"]
+      expect(YAML.load(File.read(Eventify::Configuration::PATH))[:subscribers]).to eq(["foo@bar.com"])
     end
   end
 
   context "#[]" do
     it "retrieves configuration setting" do
-      Eventify::Configuration.new(baz: "bar")[:baz].should == "bar"
+      expect(Eventify::Configuration.new(baz: "bar")[:baz]).to eq("bar")
     end
   end
 end

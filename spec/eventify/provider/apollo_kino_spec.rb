@@ -6,7 +6,7 @@ describe Eventify::Provider::ApolloKino do
       stub_request(:get, URI.join(Eventify::Provider::ApolloKino::URL, "eng/soon").to_s).to_return(body: File.read(File.expand_path("../../support/apollo_kino.html", __dir__)))
 
       events = Eventify::Provider::ApolloKino.fetch
-      events.should == [
+      expect(events).to eq([
         Eventify::Provider::ApolloKino.new(
           title: "Võimlemisklubi Janika TALVEKONTSERT",
           link: "https://www.apollokino.ee/eng/event/4127/title/v%C3%B5imlemisklubi_janika_talvekontsert/",
@@ -19,7 +19,7 @@ describe Eventify::Provider::ApolloKino do
           date: Time.parse("2022-06-10"),
           id: "https://www.apollokino.ee/eng/event/4064/title/jurassic_world_dominion/",
         ),
-      ]
+      ])
     end
   end
 end

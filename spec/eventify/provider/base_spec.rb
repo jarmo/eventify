@@ -21,11 +21,11 @@ describe Eventify::Provider::Base do
       }
 
       parsed_event = Eventify::Provider::Base.new(event)
-      parsed_event.id.should == "86362"
-      parsed_event.provider.should == "Eventify::Provider::Base"
-      parsed_event.title.should == event[:title]
-      parsed_event.link.should == event[:link]
-      parsed_event.date.should == event[:date]
+      expect(parsed_event.id).to eq("86362")
+      expect(parsed_event.provider).to eq("Eventify::Provider::Base")
+      expect(parsed_event.title).to eq(event[:title])
+      expect(parsed_event.link).to eq(event[:link])
+      expect(parsed_event.date).to eq(event[:date])
     end
 
     it "raises an error when id is missing" do
@@ -68,22 +68,22 @@ describe Eventify::Provider::Base do
   context "#provider" do
     it "uses class name" do
       class Eventify::Provider::CustomEvent < Eventify::Provider::Base; end
-      Eventify::Provider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider.should == "Eventify::Provider::CustomEvent"
+      expect(Eventify::Provider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").provider).to eq("Eventify::Provider::CustomEvent")
     end
   end
 
   context "#==" do
     it "true when id and provider match" do
-      Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org").should == Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
+      expect(Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")).to eq(Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org"))
     end
 
     it "false when id does not match" do
-      Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org").should_not == Eventify::Provider::Base.new(id: "321", title: "foo", link: "http://example.org")
+      expect(Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")).not_to eq(Eventify::Provider::Base.new(id: "321", title: "foo", link: "http://example.org"))
     end
 
     it "false when class does not match" do
       class Eventify::Provider::CustomEvent < Eventify::Provider::Base; end
-      Eventify::Provider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org").should_not ==  Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
+      expect(Eventify::Provider::CustomEvent.new(id: "123", title: "foo", link: "http://example.org")).not_to eq(Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org"))
     end
   end
 
@@ -97,7 +97,7 @@ describe Eventify::Provider::Base do
       }
       Eventify::Provider::Base.new(event).save
 
-      Eventify::Database.events.size.should == 1
+      expect(Eventify::Database.events.size).to eq(1)
     end
 
     it "returns self" do
@@ -108,7 +108,7 @@ describe Eventify::Provider::Base do
         date: Time.parse("2013-12-27 12:30:11"),
       }
       event_instance = Eventify::Provider::Base.new(event)
-      event_instance.save.should == event_instance
+      expect(event_instance.save).to eq(event_instance)
     end
   end
 
@@ -122,7 +122,7 @@ describe Eventify::Provider::Base do
       }
       Eventify::Provider::Base.new(event).save
 
-      Eventify::Provider::Base.new(event).should exist
+      expect(Eventify::Provider::Base.new(event)).to exist
     end
 
     it "false for not existing event" do
@@ -133,13 +133,13 @@ describe Eventify::Provider::Base do
         date: Time.parse("2013-12-27 12:30:11"),
       }
 
-      Eventify::Provider::Base.new(event).should_not exist
+      expect(Eventify::Provider::Base.new(event)).not_to exist
     end
   end
 
   it "sorts by title" do
     event1 = Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
     event2 = Eventify::Provider::Piletilevi.new(id: "123", title: "bar", link: "http://example.org")
-    [event1, event2].sort.should == [event2, event1]
+    expect([event1, event2].sort).to eq([event2, event1])
   end
 end

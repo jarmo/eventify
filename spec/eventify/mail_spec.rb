@@ -3,7 +3,7 @@ require "spec_helper"
 describe Eventify::Mail do
   context ".deliver" do
     it "sends e-mail to all subscribers" do
-      ::Mail.should_receive(:deliver).twice
+      expect(::Mail).to receive(:deliver).twice
 
       Eventify::Mail.deliver([], Eventify::Configuration.new(subscribers: ["foo@example.org", "bar@example.org"]))
     end
@@ -16,7 +16,7 @@ describe Eventify::Mail do
       Eventify::Provider::Base.new(id: "456", title: "bar3", link: "http://example.org/3", date: Time.now)
     ]
 
-    Eventify::Mail.format(new_events).should == "There are some rumours going on about 3 possible awesome events:
+    expect(Eventify::Mail.format(new_events)).to eq("There are some rumours going on about 3 possible awesome events:
 
 * bar
     http://example.org/2
@@ -28,6 +28,6 @@ describe Eventify::Mail do
     http://example.org/1
 
 Your Humble Servant,
-Eventify"
+Eventify")
   end
 end

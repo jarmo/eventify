@@ -19,8 +19,8 @@ describe Eventify::Database do
       )
       Eventify::Database.save event2
 
-      Eventify::Database.events.size.should == 2
-      Eventify::Database.events.should == [event1, event2]
+      expect(Eventify::Database.events.size).to eq(2)
+      expect(Eventify::Database.events).to eq([event1, event2])
     end
 
     it "raises an error when event already exists" do
@@ -48,7 +48,7 @@ describe Eventify::Database do
       )
       Eventify::Database.save(event)
 
-      Eventify::Database.should exist(event)
+      expect(Eventify::Database).to exist(event)
     end
 
     it "false when event does not exist" do
@@ -59,7 +59,7 @@ describe Eventify::Database do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Eventify::Database.should_not exist(event)
+      expect(Eventify::Database).not_to exist(event)
     end
 
     it "false when event id is different" do
@@ -78,7 +78,7 @@ describe Eventify::Database do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Eventify::Database.should_not exist(event2)
+      expect(Eventify::Database).not_to exist(event2)
     end
 
     it "false when event link is different" do
@@ -97,7 +97,7 @@ describe Eventify::Database do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Eventify::Database.should_not exist(event2)
+      expect(Eventify::Database).not_to exist(event2)
     end
 
     it "false when event provider is different" do
@@ -116,7 +116,7 @@ describe Eventify::Database do
         date: Time.parse("2013-12-27 12:30:11"),
       )
 
-      Eventify::Database.should_not exist(event2)
+      expect(Eventify::Database).not_to exist(event2)
     end
   end
 
@@ -137,6 +137,6 @@ describe Eventify::Database do
     )
     Eventify::Database.save(event2)
 
-    Eventify::Database.events.should == [event1, event2]
+    expect(Eventify::Database.events).to eq([event1, event2])
   end
 end

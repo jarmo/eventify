@@ -8,18 +8,18 @@ describe Eventify do
 
   context "#initialize" do
     it "initializes configuration" do
-      Eventify.new.configuration[:subscribers].should == ["user@example.org"]
+      expect(Eventify.new.configuration[:subscribers]).to eq(["user@example.org"])
     end
 
     it "allows to override configuration" do
-      Eventify.new(foo: "bar").configuration[:foo].should == "bar"
+      expect(Eventify.new(foo: "bar").configuration[:foo]).to eq("bar")
     end
   end
 
   context "#configuration" do
     it "provides access to the configuration instance" do
       eventify = Eventify.new
-      eventify.configuration.should == eventify.instance_variable_get(:@configuration)
+      expect(eventify.configuration).to eq(eventify.instance_variable_get(:@configuration))
     end
   end
 
@@ -30,8 +30,8 @@ describe Eventify do
         Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org"),
         Eventify::Provider::Base.new(id: "456", title: "bar", link: "http://example.org")
       ]
-      eventify.stub(all_events: events)
-      eventify.new_events.should == events
+      allow(eventify).to receive_messages(all_events: events)
+      expect(eventify.new_events).to eq(events)
     end
 
     it "old ones are filtered out" do
@@ -39,18 +39,18 @@ describe Eventify do
       old_event = Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org").save
       new_event = Eventify::Provider::Base.new(id: "456", title: "bar", link: "http://example.org")
       events = [old_event, new_event]
-      eventify.stub(all_events: events)
+      allow(eventify).to receive_messages(all_events: events)
 
-      eventify.new_events.should == [new_event]
+      expect(eventify.new_events).to eq([new_event])
     end
 
     it "caches the results" do
       eventify = Eventify.new
 
       event = Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
-      eventify.should_receive(:all_events).and_return([event])
+      expect(eventify).to receive(:all_events).and_return([event])
 
-      2.times { eventify.new_events.should == [event] }
+      2.times { expect(eventify.new_events).to eq([event]) }
     end
   end
 
@@ -58,7 +58,7 @@ describe Eventify do
     it "fetches all events from all providers" do
       eventify = Eventify.new
       eventify.providers.each do |provider|
-        provider.should_receive :fetch
+        expect(provider).to receive :fetch
       end
 
       eventify.all_events
@@ -67,34 +67,34 @@ describe Eventify do
     it "combines all events from all providers" do
       event1 = Eventify::Provider::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
       event2 = Eventify::Provider::Piletilevi.new(id: "456", title: "bar", link: "http://example.org")
-      Eventify::Provider::Piletilevi.stub(fetch: [event1, event2])
+      allow(Eventify::Provider::Piletilevi).to receive_messages(fetch: [event1, event2])
 
       event3 = Eventify::Provider::Base.new(id: "123", title: "foo", link: "http://example.org")
-      Eventify::Provider::Base.stub(fetch: [event3])
+      allow(Eventify::Provider::Base).to receive_messages(fetch: [event3])
 
       eventify = Eventify.new
-      eventify.stub(providers: [Eventify::Provider::Piletilevi, Eventify::Provider::Base])
-      eventify.all_events.should == [event1, event2, event3]
+      allow(eventify).to receive_messages(providers: [Eventify::Provider::Piletilevi, Eventify::Provider::Base])
+      expect(eventify.all_events).to eq([event1, event2, event3])
     end
 
     it "caches results" do
       eventify = Eventify.new
-      eventify.should_receive(:providers).once.and_return([Eventify::Provider::Base])
-      Eventify::Provider::Base.should_receive(:fetch).once.and_return([1])
+      expect(eventify).to receive(:providers).once.and_return([Eventify::Provider::Base])
+      expect(Eventify::Provider::Base).to receive(:fetch).once.and_return([1])
 
-      eventify.all_events.should == [1]
-      eventify.all_events.should == [1]
+      expect(eventify.all_events).to eq([1])
+      expect(eventify.all_events).to eq([1])
     end
 
     it "removes duplicate entries" do
       event1 = Eventify::Provider::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
       event2 = Eventify::Provider::Piletilevi.new(id: "123", title: "foo", link: "http://example.org")
-      event1.should == event2
-      Eventify::Provider::Piletilevi.stub(fetch: [event1, event2])
+      expect(event1).to eq(event2)
+      allow(Eventify::Provider::Piletilevi).to receive_messages(fetch: [event1, event2])
 
       eventify = Eventify.new
-      eventify.stub(providers: [Eventify::Provider::Piletilevi])
-      eventify.all_events.should == [event1]
+      allow(eventify).to receive_messages(providers: [Eventify::Provider::Piletilevi])
+      expect(eventify.all_events).to eq([event1])
     end
   end
 
@@ -105,14 +105,14 @@ describe Eventify do
         Eventify::Provider::Livenation,
         Eventify::Provider::ApolloKino
       ]
-      Eventify.new.providers.should == expected_providers
+      expect(Eventify.new.providers).to eq(expected_providers)
     end
     
     it "allows to override" do
       eventify = Eventify.new
       eventify.providers = ["foo"]
 
-      eventify.providers.should == ["foo"]
+      expect(eventify.providers).to eq(["foo"])
     end
   end
 
@@ -124,16 +124,16 @@ describe Eventify do
       ]
       configuration = double("configuration")
       eventify = Eventify.new configuration
-      eventify.should_receive(:new_events).and_return(new_events)
-      Eventify::Mail.should_receive(:deliver).with(new_events, configuration)
+      expect(eventify).to receive(:new_events).and_return(new_events)
+      expect(Eventify::Mail).to receive(:deliver).with(new_events, configuration)
 
       eventify.process_new_events
     end
 
     it "does not send e-mail when no new events" do
       eventify = Eventify.new
-      eventify.should_receive(:new_events).and_return([])
-      Eventify::Mail.should_not_receive(:deliver)
+      expect(eventify).to receive(:new_events).and_return([])
+      expect(Eventify::Mail).not_to receive(:deliver)
 
       eventify.process_new_events
     end
@@ -144,12 +144,12 @@ describe Eventify do
         Eventify::Provider::Base.new(id: "456", title: "bar", link: "http://example.org/2", date: Time.now)
       ]
       eventify = Eventify.new
-      eventify.should_receive(:new_events).and_return(new_events)
-      Eventify::Mail.stub(:deliver)
+      expect(eventify).to receive(:new_events).and_return(new_events)
+      allow(Eventify::Mail).to receive(:deliver)
 
       eventify.process_new_events
 
-      Eventify::Database.events.size.should == 2
+      expect(Eventify::Database.events.size).to eq(2)
     end
   end
 end
