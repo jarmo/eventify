@@ -40,7 +40,6 @@ The following providers are currently supported:
 
 * [Livenation](https://livenation.ee)
 * [Piletilevi](http://www.piletilevi.ee/)
-* [Solaris Kino](http://solariskino.ee/)
 * [Apollo Kino](https://www.apollokino.ee/)
 
 ## Adding New Providers
