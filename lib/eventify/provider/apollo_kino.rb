@@ -8,7 +8,7 @@ module Eventify::Provider
 
     class << self
       def fetch
-        doc = Nokogiri::HTML(open(URI.join(URL, "eng/soon")))
+        doc = Nokogiri::HTML(open(URI.join(URL, "eng/soon"), {"Accept-Encoding" => "gzip,deflate"}))
         doc.search(".EventList-container > div").map do |item|
           title_node = item.at("h2 a")
           url = URI.join(URL, title_node["href"]).to_s
