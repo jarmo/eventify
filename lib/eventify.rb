@@ -1,7 +1,7 @@
 require File.expand_path("eventify/version", __dir__)
 require File.expand_path("eventify/configuration", __dir__)
 require File.expand_path("eventify/provider/base", __dir__)
-require File.expand_path("eventify/provider/fbi", __dir__)
+require File.expand_path("eventify/provider/livenation", __dir__)
 require File.expand_path("eventify/provider/piletilevi", __dir__)
 require File.expand_path("eventify/provider/solaris_kino", __dir__)
 require File.expand_path("eventify/database", __dir__)
@@ -35,7 +35,7 @@ class Eventify
   def providers
     @providers ||= [
       Eventify::Provider::Piletilevi,
-      Eventify::Provider::FBI,
+      Eventify::Provider::Livenation,
       Eventify::Provider::SolarisKino
     ]
   end

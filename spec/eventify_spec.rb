@@ -102,7 +102,7 @@ describe Eventify do
     it "returns all providers" do
       expected_providers = [
         Eventify::Provider::Piletilevi,
-        Eventify::Provider::FBI,
+        Eventify::Provider::Livenation,
         Eventify::Provider::SolarisKino
       ]
       Eventify.new.providers.should == expected_providers

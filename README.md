@@ -38,7 +38,7 @@ providers/organizers in an aggregate way.
 
 The following providers are currently supported:
 
-* [FBI](http://fbi.ee)
+* [Livenation](https://livenation.ee)
 * [Piletilevi](http://www.piletilevi.ee/)
 * [Solaris Kino](http://solariskino.ee/)
 
