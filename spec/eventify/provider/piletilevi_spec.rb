@@ -16,7 +16,7 @@ describe Eventify::Provider::Piletilevi do
         ),
         Eventify::Provider::Piletilevi.new(
           title: "Huumoriteater ''ENSV kohvik''",
-          link: "//www.kinkekaart.ee/est/piletid/teater/komoodia/huumoriteater-ensv-kohvik-318916/",
+          link: "https://www.kinkekaart.ee/est/piletid/teater/komoodia/huumoriteater-ensv-kohvik-318916/",
           date: Time.at(1577898000),
           id: 21428
         ),

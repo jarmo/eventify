@@ -23,7 +23,9 @@ module Eventify::Provider
       def events(json)
         entries = json["responseData"]["event"]
         entries.map do |entry|
-          new id: entry["id"], title: entry["title"], link: entry["link"], date: Time.at(entry["startTime"]["stamp"])
+          link = URI.parse(entry["link"])
+          link.scheme = "https" unless link.scheme
+          new id: entry["id"], title: entry["title"], link: link.to_s, date: Time.at(entry["startTime"]["stamp"])
         end
       end
     end
