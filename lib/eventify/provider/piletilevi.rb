@@ -17,7 +17,7 @@ module Eventify::Provider
       private
       
       def fetch_page(number)
-        JSON.parse(open("#{URL}/page:#{number}").read)
+        JSON.parse(URI.open("#{URL}/page:#{number}").read)
       end
 
       def events(json)

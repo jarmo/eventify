@@ -3,7 +3,7 @@ require "spec_helper"
 describe Eventify::Configuration do
   before do
     stub_const "Eventify::Configuration::PATH", File.join(Dir.tmpdir, "eventify-config.yml")
-    File.delete Eventify::Configuration::PATH if File.exists? Eventify::Configuration::PATH
+    File.delete Eventify::Configuration::PATH if File.exist? Eventify::Configuration::PATH
   end
 
   context "#initialize" do

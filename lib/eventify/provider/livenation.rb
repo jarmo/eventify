@@ -9,7 +9,7 @@ module Eventify::Provider
 
     class << self
       def fetch
-        doc = Nokogiri::HTML(open(URL))
+        doc = Nokogiri::HTML(URI.open(URL))
         doc.search("script[type='application/ld+json']").map do |raw_item|
           item = JSON.parse(raw_item.content)
           next unless item["name"]

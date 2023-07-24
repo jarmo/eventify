@@ -19,7 +19,7 @@ RSpec.configure do |config|
 
     sqlite = Eventify::Database.instance_variable_get(:@sqlite)
     sqlite.close if sqlite
-    File.delete database_path if File.exists? database_path
+    File.delete database_path if File.exist? database_path
     Eventify::Database.instance_variable_set(:@sqlite, nil)
   end
 end
