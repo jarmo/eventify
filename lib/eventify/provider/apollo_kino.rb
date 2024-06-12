@@ -4,15 +4,15 @@ require "time"
 
 module Eventify::Provider
   class ApolloKino < Base
-    URL = "https://www.apollokino.ee/" 
+    URL = "https://www.apollokino.ee/eng/movies?3064-actionType=1" 
 
     class << self
       def fetch
-        doc = Nokogiri::HTML(URI.open(URI.join(URL, "eng/soon"), {"Accept-Encoding" => "gzip,deflate"}))
-        doc.search(".EventList-container > div").map do |item|
-          title_node = item.at("h2 a")
-          url = URI.join(URL, title_node["href"]).to_s
-          date = Time.strptime(item.at(".event-releaseDate b").content, "%d.%m.%Y")
+        doc = Nokogiri::HTML(URI.open(URL))
+        doc.search(".schedule__item").map do |item|
+          title_node = item.at(".movie-card__title a")
+          url = title_node["href"]
+          date = Time.strptime(item.at(".movie-card__label").content.gsub(/In Cinemas /, ""), "%m/%d/%Y")
           new id: url, title: title_node.content, link: url, date: date
         end
       end
