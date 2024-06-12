@@ -5,17 +5,17 @@ class Eventify::Database
 
   class << self
     def exists?(event)
-      results = sqlite.execute "select 1 from event where id=? and provider=? and link=?", event.id, event.provider, event.link
+      results = sqlite.execute "select 1 from event where id=? and provider=? and link=?", [event.id, event.provider, event.link]
       !results.empty?
     end
 
     def save(event)
       sqlite.execute "insert into event values(?, ?, ?, ?, ?)", 
-        event.id,
+        [event.id,
         event.provider,
         event.title,
         event.link,
-        event.date.to_s
+        event.date.to_s]
     end
 
     def events
