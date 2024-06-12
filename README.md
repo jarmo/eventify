@@ -1,8 +1,6 @@
 # Eventify
 [![Gem Version](https://badge.fury.io/rb/eventify.png)](http://badge.fury.io/rb/eventify)
-[![Build Status](https://api.travis-ci.org/jarmo/eventify.png)](http://travis-ci.org/jarmo/eventify)
 [![Coverage](https://coveralls.io/repos/jarmo/eventify/badge.png?branch=master)](https://coveralls.io/r/jarmo/eventify)
-[![Dependency Status](https://gemnasium.com/jarmo/eventify.png)](https://gemnasium.com/jarmo/eventify)
 [![Code Climate](https://codeclimate.com/github/jarmo/eventify.png)](https://codeclimate.com/github/jarmo/eventify)
 
 Are you tired of missing some cool concerts/events because you just didn't know them
@@ -12,7 +10,7 @@ of some event too late?
 If the answer was yes to either of these questions then Eventify can help you!
 
 Eventify will notify you about upcoming events from different
-providers/organizers in an aggregate way.
+providers/organizers in an aggregated way.
 
 ## Installation
 
@@ -31,7 +29,7 @@ providers/organizers in an aggregate way.
 * Check your e-mail for information about upcoming events.
 
 * Edit configuration settings if defaults won't work for you:
-    
+
      `$ vi ~/.eventify/config.yaml`
 
 ## Supported Providers
