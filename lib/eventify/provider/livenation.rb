@@ -1,20 +1,19 @@
 require "open-uri"
-require "nokogiri"
 require "json"
 require "time"
 
 module Eventify::Provider
   class Livenation < Base
-    URL = "https://www.livenation.ee/event/allevents" 
+    URL = "https://www.livenation.ee/api/search/events?IncludePostponed=true&IncludeCancelled=false&Url=%2Fevent%2Fallevents&PageSize=200&Page=1&CountryIds=68"
 
     class << self
       def fetch
-        doc = Nokogiri::HTML(URI.open(URL))
-        doc.search("script[type='application/ld+json']").map do |raw_item|
-          item = JSON.parse(raw_item.content)
-          next unless item["name"]
-          new id: item["url"], title: item["name"], link: item["url"], date: Time.parse(item["startDate"])
-        end.compact
+        json = JSON.parse(URI.open(URL).read)
+        entries = json["documents"]
+        entries.map do |entry|
+          localization = entry["localizations"][0]
+          new id: entry["id"], title: localization["name"], link: "https://www.livenation.ee#{localization["url"]}", date: Time.parse(entry["eventDate"])
+        end
       end
     end
   end
