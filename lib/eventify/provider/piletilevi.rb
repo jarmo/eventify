@@ -3,13 +3,13 @@ require "json"
 
 module Eventify::Provider
   class Piletilevi < Base
-    URL = URI.parse("https://www.piletilevi.ee/ajaxCaller/method:getConcertsListInfo/id:1089/type:catalog_category/order:date,asc")
+    URL = URI.parse("https://www.piletilevi.ee/api/v1/events?language=et&page=:PAGE:&pageSize=36&sortBy=date&sortOrder=ASC")
+    EVENT_BASE_URL = URI.parse("https://www.piletilevi.ee/piletid/:ID:/:SLUG:")
 
     class << self
       def fetch
         first_page_json = fetch_page(1)
-        list_info = first_page_json["responseData"]["listInfo"]
-        total_pages = list_info["total"] / list_info["pageSize"] + 1
+        total_pages = first_page_json["totalPages"]
         result = events(first_page_json) + (2..total_pages).flat_map { |page_number| events(fetch_page(page_number)) }
         result
       end
@@ -17,15 +17,14 @@ module Eventify::Provider
       private
       
       def fetch_page(number)
-        JSON.parse(URI.open("#{URL}/page:#{number}").read)
+        JSON.parse(URI.open(URL.to_s.gsub(":PAGE:", number.to_s)).read)
       end
 
       def events(json)
-        entries = json["responseData"]["event"]
+        entries = json["items"]
         entries.map do |entry|
-          link = URI.parse(entry["link"])
-          link.scheme = "https" unless link.scheme
-          new id: entry["id"], title: entry["title"], link: link.to_s, date: Time.at(entry["startTime"]["stamp"])
+          link = URI.parse(EVENT_BASE_URL.to_s.gsub(":ID:", entry["id"]).gsub(":SLUG:", entry["sluggedName"]))
+          new id: entry["id"], title: entry["name"], link: link.to_s, date: Time.at(entry["eventStartAt"])
         end
       end
     end
