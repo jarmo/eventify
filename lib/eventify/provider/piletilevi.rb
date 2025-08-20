@@ -24,7 +24,7 @@ module Eventify::Provider
         entries = json["items"]
         entries.map do |entry|
           link = URI.parse(EVENT_BASE_URL.to_s.gsub(":ID:", entry["id"]).gsub(":SLUG:", entry["sluggedName"]))
-          new id: entry["id"], title: entry["name"], link: link.to_s, date: Time.at(entry["eventStartAt"])
+          new id: entry["id"], title: entry["name"], link: link.to_s, date: Time.parse(entry["eventStartAt"])
         end
       end
     end
