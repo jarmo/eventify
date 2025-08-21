@@ -12,7 +12,9 @@ module Eventify::Provider
         entries = json["documents"]
         entries.map do |entry|
           localization = entry["localizations"][0]
-          new id: entry["id"], title: localization["name"], link: "https://www.livenation.ee#{localization["url"]}", date: Time.parse(entry["eventDate"])
+          url = URI.parse(localization["url"])
+          url = URI.parse("https://www.livenation.ee#{url}") unless url.host
+          new id: entry["id"], title: localization["name"], link: url.to_s, date: Time.parse(entry["eventDate"])
         end
       end
     end
